@@ -1,0 +1,25 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+.page {
+    margin: auto;
+    padding: 0px;
+    width: 75%;
+    height: 100%;
+    border-left: 2px solid gray;
+    border-right: 2px solid gray;
+}
+
+.top {
+    text-align: center;
+    background: #CCCCFF;
+    margin: 0px;
+    padding: 10px;
+}
+
+.content {
+    margin: 0px;
+    padding: 0px 10px;
+}
