@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<link rel="stylesheet" href="style.css" />-->
+    <title>{% block title %}Student Assistance System{% endblock %}</title>
+</head>
+
+<body>
+    <div id="top">
+        {% block top %}
+        <h1>Student Assistance System</h1>
+        <p><a href="{% url 'student_assistance_system:index' %}">Home</a> |
+        <a href="{% url 'student_assistance_system:profile' %}">View Profile</a> |
+        <a href="{% url 'student_assistance_system:logout' %}">Logout</a></p>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
