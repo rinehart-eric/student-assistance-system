@@ -1,25 +1,27 @@
 html, body {
     height: 100%;
-    margin: 0;
+    margin: 0px;
 }
 
-.page {
+#page {
     margin: auto;
-    padding: 0px;
     width: 75%;
     height: 100%;
     border-left: 2px solid gray;
     border-right: 2px solid gray;
 }
 
-.top {
+#top {
     text-align: center;
     background: #CCCCFF;
-    margin: 0px;
-    padding: 10px;
+    padding: 5px;
 }
 
-.content {
-    margin: 0px;
-    padding: 0px 10px;
+#top a {
+    color: #000000;
+}
+
+#content {
+    border-top: 2px solid gray;
+    padding: 5px;
 }
