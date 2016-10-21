@@ -7,21 +7,26 @@ html, body {
     margin: auto;
     width: 75%;
     height: 100%;
-    border-left: 2px solid gray;
-    border-right: 2px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
 }
 
 #top {
     text-align: center;
     background: #CCCCFF;
-    padding: 5px;
+    padding: 5px 5px 0px 5px;
+    border-bottom: 1px solid gray;
 }
 
-#top a {
-    color: #000000;
+#top p {
+    color: #666666;
+}
+
+#top p a {
+    color: #666666;
+    font-weight: bold;
 }
 
 #content {
-    border-top: 2px solid gray;
-    padding: 5px;
+    padding: 0px 5px;
 }
