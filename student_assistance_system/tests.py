@@ -2,29 +2,45 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
-test_username = 'test'
-test_password = 'test'
-
-class IndexTestCase(TestCase):
+class LoginTestCase(TestCase):
     def setUp(self):
-        User.objects.create_user(test_username, password=test_password)
+        User.objects.create_user('test', password='test')
 
+    def validate_login(self):
+        self.assertTrue(self.client.login(username='test', password='test'))
+
+    def validate_response(self, response, expected_status_code=200, expected_template_name=None):
+        self.assertEqual(response.status_code, expected_status_code)
+        if expected_template_name:
+            self.assertIsNotNone(response.templates)
+            self.assertTrue(expected_template_name in map(lambda t: t.name, response.templates))
+        else:
+            self.assertFalse(response.templates)
+
+class IndexTestCase(LoginTestCase):
     def test_index_unauthorized(self):
         url = reverse("student_assistance_system:index")
-        resp = self.client.get(url, follow=True)
-
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.templates)
-        self.assertEqual(resp.templates[0].name, 'registration/login.html')
+        self.validate_response(self.client.get(url), expected_status_code=302)
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
 
     def test_index_authorized(self):
-        self.assertTrue(self.client.login(username=test_username, password=test_password))
+        self.validate_login()
 
         url = reverse("student_assistance_system:index")
-        resp = self.client.get(url, follow=True)
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/index.html')
 
-        self.assertEqual(resp.status_code, 200)
-        self.assertIsNotNone(resp.templates)
-        self.assertEqual(resp.templates[0].name, 'student_assistance_system/index.html')
+        self.client.logout()
+
+class ProfileTestCase(LoginTestCase):
+    def test_profile_unauthorized(self):
+        url = reverse("student_assistance_system:profile")
+        self.validate_response(self.client.get(url), expected_status_code=302)
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
+
+    def test_profile_authorized(self):
+        self.validate_login()
+
+        url = reverse("student_assistance_system:profile")
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/profile.html')
 
         self.client.logout()
