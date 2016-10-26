@@ -2,12 +2,18 @@
 
 {% load schedule_view %}
 
-{% block location %}Home{% endblock %}
+{% block location %}
+{% if schedule %}
+    Viewing schedule: {{ schedule.name }}
+{% else %}
+    Schedule not found
+{% endif %}
+{% endblock %}
 
 {% block content %}
 {% if schedule %}
     {% schedule_view schedule %}
 {% else %}
-    You have not created any schedules.
+    <h1>This schedule does not exist.</h1>
 {% endif %}
 {% endblock %}
