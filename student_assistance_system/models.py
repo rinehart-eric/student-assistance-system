@@ -41,12 +41,13 @@ class Profile(models.Model):
     name = models.CharField(max_length=50)
     minors = models.ManyToManyField(RequirementSet)
 
-# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
 
+# https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):

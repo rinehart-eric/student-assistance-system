@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 
+
 class LoginTestCase(TestCase):
     def setUp(self):
         User.objects.create_user('test', password='test')
@@ -17,6 +18,7 @@ class LoginTestCase(TestCase):
         else:
             self.assertFalse(response.templates)
 
+
 class IndexTestCase(LoginTestCase):
     def test_index_unauthorized(self):
         url = reverse("student_assistance_system:index")
@@ -30,6 +32,7 @@ class IndexTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/index.html')
 
         self.client.logout()
+
 
 class ProfileTestCase(LoginTestCase):
     def test_profile_unauthorized(self):
