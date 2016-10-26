@@ -14,6 +14,4 @@ def view_schedule(request, schedule_id):
 
 @login_required
 def profile(request):
-    return render(request, 'student_assistance_system/profile.html', {
-        'user': request.user,
-    })
+    return render(request, 'student_assistance_system/profile.html', dict(user=request.user))
