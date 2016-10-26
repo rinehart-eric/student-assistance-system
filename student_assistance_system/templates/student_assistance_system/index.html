@@ -1,7 +1,11 @@
 {% extends "student_assistance_system/base_site.html" %}
 
+{% load schedule_view %}
+
 {% block location %}Home{% endblock %}
 
 {% block content %}
-<h1>This is the index page</h1>
+{% if schedule %}
+    {% schedule_view schedule %}
+{% endif %}
 {% endblock %}

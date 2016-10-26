@@ -3,7 +3,9 @@ from django.shortcuts import render
 
 @login_required
 def index(request):
-    return render(request, 'student_assistance_system/index.html')
+    schedules = request.user.profile.schedule_set.all()
+    most_recently_updated_schedule = max(schedules, key=lambda s: s.updated)
+    return render(request, 'student_assistance_system/index.html', dict(schedule=most_recently_updated_schedule))
 
 @login_required
 def profile(request):
