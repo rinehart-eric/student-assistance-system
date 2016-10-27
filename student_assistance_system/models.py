@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import calendar
+
 from django.db import models
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
@@ -10,6 +12,9 @@ class Department(models.Model):
     full_name = models.CharField(max_length=50)
     abbr_name = models.CharField(max_length=50)
 
+    def __unicode__(self):
+        return self.abbr_name
+
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
@@ -19,6 +24,9 @@ class Course(models.Model):
     credit_hours = models.IntegerField()
     prereqs = models.ManyToManyField('self', symmetrical=False)
     also_offered_as = models.ManyToManyField('self')
+
+    def __unicode__(self):
+        return self.name
 
 
 class Requirement(models.Model):
@@ -68,12 +76,21 @@ class MeetingTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def __unicode__(self):
+        return ' '.join((calendar.day_name[self.day],
+                         self.start_time.strftime('%H:%M'),
+                         '-',
+                         self.end_time.strftime('%H:%M')))
+
 
 class Schedule(models.Model):
     name = models.CharField(max_length=50)
     sections = models.ManyToManyField(Section)
     user = models.ForeignKey(Profile)
     updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class CompletedCourse(models.Model):

@@ -1,1 +1,7 @@
 <h1>Viewing schedule: {{ schedule.name }}</h1>
+
+<ul>
+{% for section in schedule.sections.all %}
+    <li>{{ section.course.name }}</li>
+{% endfor %}
+</ul>

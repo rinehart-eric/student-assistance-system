@@ -16,5 +16,12 @@ def view_schedule(request, schedule_id):
 
 
 @login_required
+def edit_schedule(request, schedule_id):
+    schedule = request.user.profile.schedule_set.filter(pk=schedule_id).first()
+    # TODO: create this template
+    return render(request, 'student_assistance_system/edit_schedule.html', dict(schedule=schedule))
+
+
+@login_required
 def profile(request):
     return render(request, 'student_assistance_system/profile.html', dict(user=request.user))
