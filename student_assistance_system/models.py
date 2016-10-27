@@ -39,9 +39,12 @@ class Requirement(models.Model):
 class RequirementSet(models.Model):
     name = models.CharField(max_length=50)
     department = models.ForeignKey(Department)
-    type = models.IntegerField()
+    type = models.IntegerField() # 0 = major, 1 = minor, 2 = concentration
     effective_date = models.DateField()
     requirements = models.ManyToManyField(Requirement)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Profile(models.Model):
