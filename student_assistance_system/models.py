@@ -103,12 +103,3 @@ class UserMajor(models.Model):
     name = models.ForeignKey(Profile)
     major = models.ForeignKey(RequirementSet)
     concentration = models.ForeignKey(RequirementSet, related_name='+')
-
-
-
-
-
-
-
-
-
