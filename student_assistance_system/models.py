@@ -62,16 +62,7 @@ def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-class Section(models.Model):
-    course = models.ForeignKey(Course)
-    capacity = models.IntegerField()
-    enrolled = models.IntegerField()
-    professor = models.CharField(max_length=30)
-    location = models.CharField(max_length=30)
-
-
 class MeetingTime(models.Model):
-    section = models.ForeignKey(Section)
     day = models.IntegerField()
     start_time = models.TimeField()
     end_time = models.TimeField()
@@ -81,6 +72,15 @@ class MeetingTime(models.Model):
                          self.start_time.strftime('%H:%M'),
                          '-',
                          self.end_time.strftime('%H:%M')))
+
+
+class Section(models.Model):
+    course = models.ForeignKey(Course)
+    capacity = models.IntegerField()
+    enrolled = models.IntegerField()
+    meeting_times = models.ManyToManyField(MeetingTime)
+    professor = models.CharField(max_length=30)
+    location = models.CharField(max_length=30)
 
 
 class Schedule(models.Model):
