@@ -1,7 +1,23 @@
 <h1>Viewing schedule: {{ schedule.name }}</h1>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Meeting times</th>
+        <th>Professor</th>
+        <th>Location</th>
+        <th>Students Enrolled</th>
+        <th>Capacity</th>
+    </tr>
+    {% for section in schedule.sections.all %}
+    <tr>
+        <td>{{ section.course.name }}</td>
+        <td>{{ section }}</td>
+        <td>{{ section.professor }}</td>
+        <td>{{ section.location }}</td>
+        <td>{{ section.enrolled }}</td>
+        <td>{{ section.capacity }}</td>
+    </tr>
+    {% endfor %}
+</table>
 
-<ul>
-{% for section in schedule.sections.all %}
-    <li>{{ section.course.name }}</li>
-{% endfor %}
-</ul>
+
