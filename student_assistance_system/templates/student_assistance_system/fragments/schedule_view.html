@@ -10,12 +10,17 @@
     </tr>
     {% for section in schedule.sections.all %}
     <tr>
-        <td>{{ section.course.name }}</td>
-        <td>{{ section }}</td>
-        <td>{{ section.professor }}</td>
-        <td>{{ section.location }}</td>
-        <td>{{ section.enrolled }}</td>
-        <td>{{ section.capacity }}</td>
+        <td valign="top">{{ section.course.name }}</td>
+
+        <td valign="top">
+            {% for m in section.meeting_times.all %}
+                {{m}} <br>
+            {% endfor %}
+        </td>
+        <td valign="top">{{ section.professor }}</td>
+        <td valign="top">{{ section.location }}</td>
+        <td valign="top">{{ section.enrolled }}</td>
+        <td valign="top">{{ section.capacity }}</td>
     </tr>
     {% endfor %}
 </table>

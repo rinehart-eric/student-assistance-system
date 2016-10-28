@@ -12,6 +12,7 @@ def index(request):
 @login_required
 def view_schedule(request, schedule_id):
     schedule = request.user.profile.schedule_set.filter(pk=schedule_id).first()
+
     return render(request, 'student_assistance_system/view_schedule.html', dict(schedule=schedule))
 
 

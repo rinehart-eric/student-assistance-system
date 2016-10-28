@@ -6,7 +6,7 @@ html, body {
 
 #page {
     margin: auto;
-    width: 75%;
+    width: 60%;
     height: 100%;
     border-left: 1px solid gray;
     border-right: 1px solid gray;
@@ -19,7 +19,13 @@ html, body {
     border-bottom: 1px solid gray;
 }
 
+#top h1 {
+    margin: 5px 0px 0px 0px;
+    font-size: 4em;
+}
+
 #top p {
+    margin: 0px 0px 5px 0px;
     color: #666666;
 }
 
