@@ -51,6 +51,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     minors = models.ManyToManyField(RequirementSet)
+    year = models.CharField(max_length=50)
 
 
 # https://simpleisbetterthancomplex.com/tutorial/2016/07/22/how-to-extend-django-user-model.html

@@ -4,4 +4,7 @@
 
 {% block content %}
 <h1>User profile for {{ user.username }}</h1>
+<h2> Name: {{user.profile.name}}</h2>
+<h2> Graduation Year: </h2>
+<h2> Minors: {{user.profile.minors.all}}</h2>
 {% endblock %}
