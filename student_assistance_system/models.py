@@ -87,6 +87,11 @@ class Section(models.Model):
     location = models.CharField(max_length=30)
 
 
+class SectionMeetingTimes(models.Model):
+    section = models.ForeignKey(Section)
+    meeting_time = models.ForeignKey(MeetingTime)
+
+
 class Schedule(models.Model):
     name = models.CharField(max_length=50)
     sections = models.ManyToManyField(Section)
