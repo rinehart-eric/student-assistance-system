@@ -1,0 +1,6 @@
+Our project requires python-2.7, django 1.10.2, and django-nose 1.4.4
+
+The code can be run after cloning by:
+ 1. calling 'python manage.py runserver'
+ 2. navigating to localhost:8000/ in a web browser
+ 3. username 'test' and password 'test' can be used to login
