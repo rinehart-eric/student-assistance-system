@@ -1,0 +1,15 @@
+{% for req_set in req_sets %}
+<h2>{{ req_set.name }}</h2>
+<table border="1">
+    <tr>
+        <th>Requirement</th>
+        <th>Fulfilled?</th>
+    </tr>
+    {% for req in req_set.requirements.all %}
+    <tr>
+        <td>{{ req.name }}</td>
+        <td>Y</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endfor %}

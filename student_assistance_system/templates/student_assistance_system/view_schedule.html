@@ -1,6 +1,6 @@
 {% extends "student_assistance_system/base_site.html" %}
 
-{% load schedule_view %}
+{% load sas_tags %}
 
 {% block location %}
 {% if schedule %}
@@ -15,5 +15,9 @@
     {% schedule_view schedule %}
 {% else %}
     <h1>This schedule does not exist.</h1>
+{% endif %}
+
+{% if req_sets %}
+    {% requirements_view req_sets %}
 {% endif %}
 {% endblock %}

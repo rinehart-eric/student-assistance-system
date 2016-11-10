@@ -11,9 +11,13 @@ def index(request):
 
 @login_required
 def view_schedule(request, schedule_id):
-    schedule = request.user.profile.schedule_set.filter(pk=schedule_id).first()
+    profile = request.user.profile
+    schedule = profile.schedule_set.filter(pk=schedule_id).first()
 
-    return render(request, 'student_assistance_system/view_schedule.html', dict(schedule=schedule))
+    majors_and_concentrations = [(um.major, um.concentration) for um in profile.usermajor_set.all()]
+    req_sets = list(profile.minors.all()) + list(sum(majors_and_concentrations, ()))
+
+    return render(request, 'student_assistance_system/view_schedule.html', dict(schedule=schedule, req_sets=req_sets))
 
 
 @login_required
