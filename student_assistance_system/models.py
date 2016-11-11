@@ -46,6 +46,13 @@ class RequirementSet(models.Model):
     def __unicode__(self):
         return self.name
 
+    def requirementset_type(self):
+        return {
+            0: 'Major',
+            1: 'Minor',
+            2: 'Concentration',
+        }[self.type]
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
