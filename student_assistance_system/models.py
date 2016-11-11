@@ -36,10 +36,6 @@ class Requirement(models.Model):
     required_classes = models.IntegerField(default=None, blank=True, null=True)
     query = models.TextField()
 
-    def create(req_name, hours, classes, queryset):
-        query = pickle.dumps(queryset.query)
-        return Requirement.objects.create(name=req_name, required_hours=hours, required_classes=classes, query=query)
-
     def get_course_set(self):
         course_set = Course.objects.all()
         course_set.query = pickle.loads(self.query)
@@ -47,6 +43,16 @@ class Requirement(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+def create_requirement(requirement_name, required_hours, required_classes, queryset):
+    if required_hours is None and required_classes is None:
+        raise ValueError('Number of required hours and number of required classes cannot both be empty')
+    query = pickle.dumps(queryset.query)
+    return Requirement.objects.create(name=requirement_name,
+                                      required_hours=required_hours,
+                                      required_classes=required_classes,
+                                      query=query)
 
 
 class RequirementSet(models.Model):
