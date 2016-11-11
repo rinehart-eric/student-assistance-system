@@ -20,6 +20,6 @@ class RequirementSetTest(TestCase):
             2: 'Concentration',
         }
 
-        for type in values:
-            self.test_reqs.type = type
-            self.assertEqual(self.test_reqs.requirementset_type(), values[type])
+        for reqs_type in values:
+            self.test_reqs.type = reqs_type
+            self.assertEqual(self.test_reqs.type_name(), values[reqs_type])

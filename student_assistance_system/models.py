@@ -31,22 +31,22 @@ class Course(models.Model):
 
 class Requirement(models.Model):
     name = models.CharField(max_length=50)
-    required_hours = models.IntegerField()
-    required_classes = models.IntegerField()
+    required_hours = models.IntegerField(default=None, blank=True, null=True)
+    required_classes = models.IntegerField(default=None, blank=True, null=True)
     query = models.CharField(max_length=500)
 
 
 class RequirementSet(models.Model):
     name = models.CharField(max_length=50)
     department = models.ForeignKey(Department)
-    type = models.IntegerField() # 0 = major, 1 = minor, 2 = concentration
+    type = models.IntegerField()  # 0 = major, 1 = minor, 2 = concentration
     effective_date = models.DateField()
     requirements = models.ManyToManyField(Requirement)
 
     def __unicode__(self):
         return self.name
 
-    def requirementset_type(self):
+    def type_name(self):
         return {
             0: 'Major',
             1: 'Minor',
@@ -92,6 +92,7 @@ class Section(models.Model):
     meeting_times = models.ManyToManyField(MeetingTime)
     professor = models.CharField(max_length=30)
     location = models.CharField(max_length=30)
+
 
 class Schedule(models.Model):
     name = models.CharField(max_length=50)
