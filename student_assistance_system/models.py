@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import calendar
+import pickle
 
 from django.db import models
 from django.db.models.signals import post_save
@@ -33,7 +34,19 @@ class Requirement(models.Model):
     name = models.CharField(max_length=50)
     required_hours = models.IntegerField(default=None, blank=True, null=True)
     required_classes = models.IntegerField(default=None, blank=True, null=True)
-    query = models.CharField(max_length=500)
+    query = models.TextField()
+
+    def create(req_name, hours, classes, queryset):
+        query = pickle.dumps(queryset.query)
+        return Requirement.objects.create(name=req_name, required_hours=hours, required_classes=classes, query=query)
+
+    def get_course_set(self):
+        course_set = Course.objects.all()
+        course_set.query = pickle.loads(self.query)
+        return course_set
+
+    def __unicode__(self):
+        return self.name
 
 
 class RequirementSet(models.Model):
