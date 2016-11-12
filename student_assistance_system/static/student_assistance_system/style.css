@@ -13,13 +13,13 @@ html, body {
 }
 
 #top {
-    text-align: center;
-    background: #CCCCFF;
+    background: #CCEEFF;
     padding: 5px 5px 0px 5px;
     border-bottom: 1px solid gray;
 }
 
 #top h1 {
+    text-align: center;
     margin: 5px 0px 0px 0px;
     font-size: 4em;
 }
@@ -34,13 +34,30 @@ html, body {
     font-weight: bold;
 }
 
+div#links {
+    float: left;
+    width: 45%;
+}
+
+div#info {
+    text-align: right;
+    width: 45%;
+    margin-left: auto;
+}
+
 #content {
     padding: 0px 5px;
-
 }
 
 #centerText {
     padding: 0px 5px;
     text-align: center;
     color: #666666;
+}
+
+div#requirements a {
+    font-size: 20px;
+    color: #666666;
+    font-weight: bold;
+    margin: 0px 0px 5px 0px;
 }
