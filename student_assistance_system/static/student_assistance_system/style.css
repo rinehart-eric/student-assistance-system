@@ -27,12 +27,13 @@ div#logo {
     float: left;
     width: 45%;
     height: 100%;
+    line-height: 55px;
+    vertical-align: middle;
 }
 
 div#logo a {
     text-decoration: none;
     color: #F3F9D2;
-    margin: 0px;
     font-size: 1.5em;
     font-weight: bold;
     font-variant: small-caps;
@@ -48,21 +49,13 @@ div#links {
     width: 45%;
     height: 100%;
     margin-left: auto;
+    padding-top: 1px;
+    line-height: 45px;
+    vertical-align: bottom;
 }
 
-div#links p {
-    color: #666666;
-}
-
-div#links p a {
-    color: #666666;
-    background: #FFFFFF;
-    text-decoration: none;
-    border: 1px solid #999999;
-}
-
-div#links p a:hover {
-    background: #EEEEEE;
+div#links p, div#links p b, div#links p a {
+    color: #F3F9D2;
 }
 
 div#content {
