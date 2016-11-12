@@ -1,5 +1,10 @@
+{% load static %}
+
+<script type="text/javascript" src="{% static 'student_assistance_system/requirements.js' %}"></script>
+
 {% for req_set in req_sets %}
-<h2>{{ req_set.name }} ({{ req_set.type_name }})</h2>
+<h2 onclick="showHideDiv('set_content{{ forloop.counter }}')">{{ req_set.name }} ({{ req_set.type_name }})</h2>
+<div id="set_content{{ forloop.counter }}" style="display: none">
 <table border="1">
     <tr>
         <th>Requirement</th>
@@ -7,9 +12,10 @@
     </tr>
     {% for req in req_set.requirements.all %}
     <tr>
-        <td>{{ req.name }}</td>
+        <td>{{ req.get_course_set }}</td>
         <td>Y</td>
     </tr>
     {% endfor %}
 </table>
+</div>
 {% endfor %}
