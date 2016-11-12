@@ -25,13 +25,20 @@ html, body {
 }
 
 #top p {
-    margin: 0px 0px 5px 0px;
+    margin: 0px 0px 1px 0px;
     color: #666666;
 }
 
 #top p a {
     color: #666666;
-    font-weight: bold;
+    background: #FFFFFF;
+    padding: 2px;
+    text-decoration: none;
+    border: 1px solid #999999;
+}
+
+#top p a:hover {
+    background: #EEEEEE;
 }
 
 div#links {
