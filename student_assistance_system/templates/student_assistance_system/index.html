@@ -10,4 +10,8 @@
 {% else %}
     <h1>You have not created any schedules.</h1>
 {% endif %}
+
+{% if req_sets %}
+    {% requirements_view req_sets %}
+{% endif %}
 {% endblock %}
