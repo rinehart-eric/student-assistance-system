@@ -1,11 +1,11 @@
 <h1>Viewing schedule: {{ schedule.name }}</h1>
-<table border="1">
+<table id="schedule">
     <tr>
-        <th>Name</th>
-        <th>Meeting times</th>
+        <th>Course Name</th>
+        <th>Meeting Times</th>
         <th>Professor</th>
         <th>Location</th>
-        <th>Students Enrolled</th>
+        <th>Enrolled</th>
         <th>Capacity</th>
     </tr>
     {% for section in schedule.sections.all %}

@@ -1,59 +1,94 @@
+html * {
+    font-family: Arial, 'sans-serif' !important;
+    color: #171219;
+}
 
 html, body {
     height: 100%;
     margin: 0px;
 }
 
-#page {
-    margin: auto;
+div#top {
+    width: 100%;
+    background: #1D2D56;
+    border-bottom: 2px solid #859BD1;
+    position: fixed;
+    top: 0px;
+    height: 50px;
+}
+
+div#header {
     width: 60%;
     height: 100%;
-    border-left: 1px solid gray;
-    border-right: 1px solid gray;
+    margin: auto;
 }
 
-#top {
-    background: #CCEEFF;
-    padding: 5px 5px 0px 5px;
-    border-bottom: 1px solid gray;
+div#logo {
+    float: left;
+    width: 45%;
+    height: 100%;
 }
 
-#top h1 {
-    text-align: center;
-    margin: 5px 0px 0px 0px;
-    font-size: 4em;
+div#logo a {
+    text-decoration: none;
+    color: #F3F9D2;
+    margin: 0px;
+    font-size: 1.5em;
+    font-weight: bold;
+    font-variant: small-caps;
+    text-shadow: 1px 1px 3px #171219;
 }
 
-#top p {
-    margin: 0px 0px 1px 0px;
+div#logo a:hover {
+    color: #CCCCCC;
+}
+
+div#links {
+    text-align: right;
+    width: 45%;
+    height: 100%;
+    margin-left: auto;
+}
+
+div#links p {
     color: #666666;
 }
 
-#top p a {
+div#links p a {
     color: #666666;
     background: #FFFFFF;
-    padding: 2px;
     text-decoration: none;
     border: 1px solid #999999;
 }
 
-#top p a:hover {
+div#links p a:hover {
     background: #EEEEEE;
 }
 
-div#links {
-    float: left;
-    width: 45%;
+div#content {
+    margin: 60px auto;
+    width: 60%;
+    height: 100%;
 }
 
-div#info {
-    text-align: right;
-    width: 45%;
-    margin-left: auto;
+div#content h1 {
+    font-weight: bold;
 }
 
-#content {
-    padding: 0px 5px;
+table#schedule {
+    width: 100%;
+    background: #EEEEEE;
+    border: 2px solid #7A7265;
+    border-collapse: collapse;
+}
+
+table#schedule th, table#schedule td {
+    border: 1px solid #7A7265;
+    border-collapse: collapse;
+}
+
+table#schedule th {
+    text-align: left;
 }
 
 #centerText {
@@ -64,7 +99,7 @@ div#info {
 
 div#requirements a {
     font-size: 20px;
-    color: #666666;
+    color: #171219;
     font-weight: bold;
     margin: 0px 0px 5px 0px;
 }

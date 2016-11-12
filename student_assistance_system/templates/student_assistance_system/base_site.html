@@ -8,19 +8,14 @@
 </head>
 
 <body>
-    <div id="page">
-        <div id="top">
-            {% block top %}
-            <h1>Student Assistance System</h1><br />
-            <div id="links"><p><a href="{% url 'student_assistance_system:index' %}">Home</a></p></div>
-            <div id="info"><p>Logged in as <b>{{ user.get_username }}</b> <a
-                href="{% url 'student_assistance_system:profile' %}">View Profile</a><a
-                href="{% url 'student_assistance_system:logout' %}">Logout</a></p>
-            </div>
-            {% endblock %}
-        </div><div id="content">
-            {% block content %}{% endblock %}
-        </div>
+    <div id="top"><div id="header">
+        <div id="logo"><a href="{% url 'student_assistance_system:index' %}">Student Assistance System</a></div>
+        <div id="links"><p>Logged in as <b>{{ user.get_username }}</b> <a
+            href="{% url 'student_assistance_system:profile' %}">View Profile</a><a
+            href="{% url 'student_assistance_system:logout' %}">Logout</a></p>
+        </div></div>
+    </div><div id="content">
+        {% block content %}{% endblock %}
     </div>
 </body>
 </html>
