@@ -66,20 +66,23 @@ div#content h1 {
     font-weight: bold;
 }
 
-table#schedule {
-    width: 100%;
+table {
     background: #EEEEEE;
     border: 2px solid #7A7265;
     border-collapse: collapse;
 }
 
-table#schedule th, table#schedule td {
+th, td {
     border: 1px solid #7A7265;
     border-collapse: collapse;
 }
 
-table#schedule th {
+th {
     text-align: left;
+}
+
+table#schedule {
+    width: 100%;
 }
 
 #centerText {
