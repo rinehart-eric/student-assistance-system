@@ -22,6 +22,14 @@ class IndexView(View):
 
 
 @method_decorator(login_required, name='dispatch')
+class SearchView(View):
+    template_name = 'student_assistance_system/search.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
+
+
+@method_decorator(login_required, name='dispatch')
 class ViewScheduleView(IndexView):
     template_name = 'student_assistance_system/view_schedule.html'
 
