@@ -1,6 +1,7 @@
 {% load static %}
+{% load sas_tags %}
 
-<script type="text/javascript" src="{% static 'student_assistance_system/requirements.js' %}"></script>
+<script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
 
 <div id="requirements">
 <h1>Requirements</h1>
@@ -10,12 +11,13 @@
     <table border="1">
         <tr>
             <th>Requirement</th>
-            <th>Fulfilled?</th>
+            <th>Status</th>
         </tr>
         {% for req in req_set.requirements.all %}
+        {% fulfilled req user as req_fulfilled %}
         <tr>
-            <td>{{ req.get_course_set }}</td>
-            <td>Y</td>
+            <td>{{ req }}</td>
+            <td class="{% if req_fulfilled %}fulfilled{% else %}unfulfilled{% endif %}" />
         </tr>
         {% endfor %}
     </table>

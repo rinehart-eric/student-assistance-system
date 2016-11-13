@@ -25,7 +25,6 @@ div#header {
 
 div#logo {
     float: left;
-    width: 45%;
     height: 100%;
     line-height: 55px;
     vertical-align: middle;
@@ -46,7 +45,6 @@ div#logo a:hover {
 
 div#links {
     text-align: right;
-    width: 45%;
     height: 100%;
     margin-left: auto;
     padding-top: 1px;
@@ -95,4 +93,13 @@ div#requirements a {
     color: #171219;
     font-weight: bold;
     margin: 0px 0px 5px 0px;
+}
+
+td.fulfilled {
+    background-image: url("../images/fulfilled.png");
+}
+
+td.unfulfilled {
+    background: url("../images/unfulfilled.png") no-repeat center center;
+    background-size: auto 90%;
 }

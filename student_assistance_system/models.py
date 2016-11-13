@@ -41,6 +41,14 @@ class Requirement(models.Model):
         course_set.query = pickle.loads(self.query)
         return course_set
 
+    def is_fulfilled_by(self, user):
+        course_set = self.get_course_set()
+        completed_courses = filter(lambda cc: course_set.contains(cc.course), user.profile.completedcourse_set.all())
+        if self.required_classes is not None:
+            return len(completed_courses) >= self.required_classes
+        else:
+            return sum([c.credit_hours for c in completed_courses], 0) >= self.required_hours
+
     def __unicode__(self):
         return self.name
 
