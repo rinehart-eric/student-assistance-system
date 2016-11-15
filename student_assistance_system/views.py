@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
-from django.views import View
+from django.views import View, generic
+from .models import Section
 
 
 @method_decorator(login_required, name='dispatch')
@@ -28,6 +29,25 @@ class SearchView(View):
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
+
+@method_decorator(login_required, name='dispatch')
+class SearchResultsView(generic.ListView):
+    template_name = 'student_assistance_system/search_results.html'
+    context_object_name = "sections"
+    paginate_by = 1
+
+    def get_queryset(self):
+        get_req = self.request.GET
+        name = get_req.get('name')
+        lower_course_number = get_req.get('num1')
+        upper_course_number = get_req.get('num2')
+        department = get_req.get('dep')
+        professor = get_req.get('prof')
+        sections = Section.objects.all()
+        if professor:
+            sections.filter(professor=professor)
+        print(sections)
+        return sections
 
 @method_decorator(login_required, name='dispatch')
 class ViewScheduleView(IndexView):
