@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import calendar
+from collections import defaultdict
 import pickle
 
 from django.db import models
@@ -119,6 +120,12 @@ class Section(models.Model):
     meeting_times = models.ManyToManyField(MeetingTime)
     professor = models.CharField(max_length=30)
     location = models.CharField(max_length=30)
+
+    def condensed_meeting_times(self):
+        times = defaultdict(list)
+        for time in self.meeting_times.all():
+            times[(time.start_time, time.end_time)].append(calendar.day_abbr[time.day])
+        return [''.join(days) + ' ' + st.strftime('%H:%M') + '-' + end.strftime('%H:%M') for (st, end), days in times.iteritems()]
 
 
 class Schedule(models.Model):
