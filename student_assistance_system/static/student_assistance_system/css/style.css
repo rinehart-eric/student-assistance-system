@@ -98,6 +98,13 @@ div#requirements a {
     margin: 0px 0px 5px 0px;
 }
 
+div#scheduleList a {
+    font-size: 20px;
+    color: #171219;
+    font-weight: bold;
+    margin: 0px 0px 5px 0px;
+}
+
 td.fulfilled {
     background-image: url("../images/fulfilled.png");
 }

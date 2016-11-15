@@ -8,11 +8,28 @@
 </head>
 
 <body>
+    <script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
     <div id="top"><div id="header">
-        <div id="logo"><a href="{% url 'student_assistance_system:index' %}">Student Assistance System</a></div>
+        <div id="logo"><a href="{% url 'student_assistance_system:index' %}">Student Assistance System</a>
+        </div>
+
         <div id="links"><p>Logged in as <b>{{ user.profile.name }}</b>&nbsp;|&nbsp;<a
             href="{% url 'student_assistance_system:profile' %}">View Profile</a>&nbsp;|&nbsp;<a
-            href="{% url 'student_assistance_system:logout' %}">Logout</a></p>
+            href="{% url 'student_assistance_system:logout' %}">Logout</a> |
+            <a onclick="showHideDiv('set_content{{ forloop.counter }}')" href="#"> Schedule</a>
+            <div id="set_content{{ forloop.counter }}" style="display: none">
+            {% for schedule in schedules %}
+                <h3>
+                    <a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">
+                        {{schedule.name}}
+                    </a>
+                </h3>
+            {% endfor %}
+            </div>
+            </p>
+
+
+
         </div></div>
     </div><div id="content">
         {% block content %}{% endblock %}
