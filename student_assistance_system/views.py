@@ -18,7 +18,8 @@ class IndexView(View):
         req_sets = self.get_requirement_sets(p)
         most_recently_updated_schedule = max(schedules, key=lambda s: s.updated) if schedules else None
 
-        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets))
+        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets, schedules=schedules))
+
 
 
 @method_decorator(login_required, name='dispatch')
