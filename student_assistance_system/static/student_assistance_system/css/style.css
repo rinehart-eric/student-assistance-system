@@ -99,10 +99,16 @@ div#requirements a {
 }
 
 td.fulfilled {
-    background-image: url("../images/fulfilled.png");
+    background: #534E46 url("../images/fulfilled.png") no-repeat center center;
+    background-size: auto 90%;
+}
+
+td.schedule_fulfills {
+    background: #534E46 url("../images/fulfilled_by_schedule.png") no-repeat center center;
+    background-size: auto 90%;
 }
 
 td.unfulfilled {
-    background: url("../images/unfulfilled.png") no-repeat center center;
+    background: #534E46 url("../images/unfulfilled.png") no-repeat center center;
     background-size: auto 90%;
 }

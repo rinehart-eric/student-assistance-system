@@ -10,9 +10,9 @@ def schedule_view(schedule):
 
 @register.inclusion_tag('student_assistance_system/fragments/requirements_view.html', takes_context=True)
 def requirements_view(context, req_sets):
-    return dict(user=context['user'], req_sets=req_sets)
+    return dict(user=context['user'], req_sets=req_sets, schedule=context['schedule'])
 
 
 @register.simple_tag
-def fulfilled(requirement, user):
-    return requirement.is_fulfilled_by(user)
+def fulfillment_status(requirement, user, schedule):
+    return requirement.fulfillment_status(user, schedule)

@@ -14,10 +14,16 @@
             <th>Status</th>
         </tr>
         {% for req in req_set.requirements.all %}
-        {% fulfilled req user as req_fulfilled %}
+        {% fulfillment_status req user schedule as status %}
         <tr>
             <td>{{ req }}</td>
-            <td class="{% if req_fulfilled %}fulfilled{% else %}unfulfilled{% endif %}" />
+            {% if status == 'fulfilled' %}
+                <td class="{{ status }}" title="Fulfilled" />
+            {% elif status == 'schedule_fulfills' %}
+                <td class="{{ status }}" title="Fulfilled by schedule" />
+            {% else %}
+                <td class="{{ status }}" title="Unfulfilled" />
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

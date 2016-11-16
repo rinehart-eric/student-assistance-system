@@ -42,13 +42,24 @@ class Requirement(models.Model):
         course_set.query = pickle.loads(self.query)
         return course_set
 
-    def is_fulfilled_by(self, user):
+    def fulfillment_status(self, user, schedule):
         course_set = self.get_course_set()
-        completed_courses = filter(lambda cc: course_set.contains(cc.course), user.profile.completedcourse_set.all())
+        prev_completed = filter(lambda cc: course_set.filter(id=cc.course.id).exists(), user.profile.completedcourse_set.all())
+        sched_completed = filter(lambda c: course_set.filter(id=c.id).exists(), map(lambda s: s.course, schedule.sections.all()))
         if self.required_classes is not None:
-            return len(completed_courses) >= self.required_classes
+            count = len(prev_completed)
+            if count >= self.required_classes:
+                return 'fulfilled'
+            else:
+                count += len(sched_completed)
+                return 'schedule_fulfills' if count >= self.required_classes else 'unfulfilled'
         else:
-            return sum([c.credit_hours for c in completed_courses], 0) >= self.required_hours
+            hours = sum([c.credit_hours for c in prev_completed], 0)
+            if hours >= self.required_hours:
+                return 'fulfilled'
+            else:
+                hours += sum([c.credit_hours for c in sched_completed], 0)
+                return 'schedule_fulfills' if hours >= self.required_hours else 'unfulfilled'
 
     def __unicode__(self):
         return self.name
@@ -106,6 +117,9 @@ class MeetingTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def day_abbr(self):
+        return ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'][self.day]
+
     def __unicode__(self):
         return ' '.join((calendar.day_name[self.day],
                          self.start_time.strftime('%H:%M'),
@@ -124,8 +138,8 @@ class Section(models.Model):
     def condensed_meeting_times(self):
         times = defaultdict(list)
         for time in self.meeting_times.all():
-            times[(time.start_time, time.end_time)].append(calendar.day_abbr[time.day])
-        return [''.join(days) + ' ' + st.strftime('%H:%M') + '-' + end.strftime('%H:%M') for (st, end), days in times.iteritems()]
+            times[(time.start_time, time.end_time)].append(time.day_abbr())
+        return [''.join(days) + ' ' + st.strftime('%-I:%M%p') + ' - ' + end.strftime('%-I:%M%p') for (st, end), days in times.iteritems()]
 
 
 class Schedule(models.Model):
