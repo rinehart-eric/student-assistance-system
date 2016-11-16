@@ -6,9 +6,10 @@
 <div id="requirements">
 <h1>Requirements</h1>
 {% for req_set in req_sets %}
+<div class="requirement" style="width: calc(99% / {{ req_sets|length }});">
 <a onclick="showHideDiv('set_content{{ forloop.counter }}')" href="#">{{ req_set.name }} ({{ req_set.type_name }})</a>
 <div id="set_content{{ forloop.counter }}" style="display: none">
-    <table border="1">
+    <table>
         <tr>
             <th>Requirement</th>
             <th>Status</th>
@@ -21,12 +22,13 @@
                 <td class="{{ status }}" title="Fulfilled" />
             {% elif status == 'schedule_fulfills' %}
                 <td class="{{ status }}" title="Fulfilled by schedule" />
-            {% else %}
+            {% elif status == 'unfulfilled' %}
                 <td class="{{ status }}" title="Unfulfilled" />
             {% endif %}
         </tr>
         {% endfor %}
     </table>
-</div><br /><br />
+</div>
+</div>
 {% endfor %}
 </div>

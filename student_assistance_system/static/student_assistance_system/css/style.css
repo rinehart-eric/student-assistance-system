@@ -18,7 +18,7 @@ div#top {
 }
 
 div#header {
-    width: 60%;
+    width: 70%;
     height: 100%;
     margin: auto;
 }
@@ -58,7 +58,7 @@ div#links p, div#links p b, div#links p a {
 
 div#content {
     margin: 60px auto;
-    width: 60%;
+    width: 70%;
     height: 100%;
 }
 
@@ -96,6 +96,17 @@ div#requirements a {
     color: #171219;
     font-weight: bold;
     margin: 0px 0px 5px 0px;
+    text-decoration: none;
+}
+
+div#requirements table {
+    width: 100%;
+}
+
+div.requirement {
+    display: inline-block;
+    margin: auto;
+    border: 1px solid #7A7265;
 }
 
 td.fulfilled {
