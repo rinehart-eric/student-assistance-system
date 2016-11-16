@@ -91,6 +91,11 @@ table#schedule {
     color: #666666;
 }
 
+div#requirements {
+    width: 100%;
+    display: flex;
+}
+
 div#requirements a {
     font-size: 20px;
     color: #171219;
@@ -99,14 +104,16 @@ div#requirements a {
     text-decoration: none;
 }
 
-div#requirements table {
-    width: 100%;
+div.requirement {
+    flex-basis: 100%;
+    padding: 2px;
+    margin: 0px 2px;
+    height: 0%;
+    border: 1px solid #7A7265;
 }
 
-div.requirement {
-    display: inline-block;
-    margin: auto;
-    border: 1px solid #7A7265;
+div.requirement table {
+    width: 100%;
 }
 
 td.fulfilled {

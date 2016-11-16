@@ -3,10 +3,10 @@
 
 <script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
 
-<div id="requirements">
 <h1>Requirements</h1>
+<div id="requirements">
 {% for req_set in req_sets %}
-<div class="requirement" style="width: calc(99% / {{ req_sets|length }});">
+<div class="requirement">
 <a onclick="showHideDiv('set_content{{ forloop.counter }}')" href="#">{{ req_set.name }} ({{ req_set.type_name }})</a>
 <div id="set_content{{ forloop.counter }}" style="display: none">
     <table>
