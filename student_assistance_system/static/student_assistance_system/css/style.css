@@ -113,11 +113,22 @@ div.requirement_set table {
     width: 100%;
 }
 
-div.requirement_set a {
+div.requirement_set h2 {
+    margin: 0px;
     font-size: 20px;
     color: #171219;
     font-weight: bold;
-    text-decoration: none;
+}
+
+div.requirement_set hr {
+    margin: 0px 0px 2px 0px;
+}
+
+div.requirement h3 {
+    margin: 0px;
+    font-size: 16px;
+    color: #171219;
+    font-weight: bold;
 }
 
 td.fulfilled {

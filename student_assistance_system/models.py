@@ -54,13 +54,19 @@ class Requirement(models.Model):
         course_statuses = dict.fromkeys(course_set, 'U')
         for course in user.profile.completedcourse_set.filter(course__in=course_set):
             course_statuses[course] = 'F'
-        for course in schedule.sections.filter(course__in=course_set):
-            course_statuses[course] = 'S'
+        for section in schedule.sections.filter(course__in=course_set):
+            course_statuses[section.course] = 'S'
         return course_statuses
 
     def fulfillment_status(self, course_statuses):
-        completed = [course for course, status in course_statuses if status == 'F']
-        scheduled = [course for course, status in course_statuses if status == 'S']
+        """
+        Gets the overall status for the requirement given the fulfillment statuses of its course set
+        Possible status values: 'U' is unfulfilled, 'F' is fulfilled, and 'S' is fulfilled by the schedule
+        :param course_statuses:
+        :return: The overall status for the requirement
+        """
+        completed = [course for course, status in course_statuses.items() if status == 'F']
+        scheduled = [course for course, status in course_statuses.items() if status == 'S']
         if self.required_hours is not None:
             hours = sum([course.credit_hours for course in completed], 0)
             if hours >= self.required_hours:

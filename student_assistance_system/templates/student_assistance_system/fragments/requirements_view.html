@@ -8,7 +8,17 @@
 {% for req_set in req_sets %}
 <div class="requirement_set">
     <h2>{{ req_set.type_name }}: {{ req_set.name }}</h2>
-
+    <hr />
+    {% for req in req_set.requirements.all %}
+    <div class="requirement">
+        {% get_course_statuses req user schedule as course_statuses %}
+        {% fulfillment_status req course_statuses as req_status %}
+        <h3>{{ req.name }}: {{ req_status }}</h3>
+        {% for course, status in course_statuses.items %}
+        <h4>{{ course }}: {{ status }}</h4>
+        {% endfor %}
+    </div>
+    {% endfor %}
 </div>
 {% endfor %}
 </div>
