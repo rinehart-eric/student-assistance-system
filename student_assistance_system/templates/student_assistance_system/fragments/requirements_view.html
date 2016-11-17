@@ -4,31 +4,11 @@
 <script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
 
 <h1>Requirements</h1>
-<div id="requirements">
+<div id="requirement_sets">
 {% for req_set in req_sets %}
-<div class="requirement">
-<a onclick="showHideDiv('set_content{{ forloop.counter }}')" href="#">{{ req_set.name }} ({{ req_set.type_name }})</a>
-<div id="set_content{{ forloop.counter }}" style="display: none">
-    <table>
-        <tr>
-            <th>Requirement</th>
-            <th>Status</th>
-        </tr>
-        {% for req in req_set.requirements.all %}
-        {% fulfillment_status req user schedule as status %}
-        <tr>
-            <td>{{ req }}</td>
-            {% if status == 'fulfilled' %}
-                <td class="{{ status }}" title="Fulfilled" />
-            {% elif status == 'schedule_fulfills' %}
-                <td class="{{ status }}" title="Fulfilled by schedule" />
-            {% elif status == 'unfulfilled' %}
-                <td class="{{ status }}" title="Unfulfilled" />
-            {% endif %}
-        </tr>
-        {% endfor %}
-    </table>
-</div>
+<div class="requirement_set">
+    <h2>{{ req_set.type_name }}: {{ req_set.name }}</h2>
+
 </div>
 {% endfor %}
 </div>

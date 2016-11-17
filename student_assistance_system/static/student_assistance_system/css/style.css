@@ -91,12 +91,12 @@ table#schedule {
     color: #666666;
 }
 
-div#requirements {
+div#requirement_sets {
     width: 100%;
     display: flex;
 }
 
-div.requirement {
+div.requirement_set {
     flex-basis: 100%;
     padding: 2px;
     margin-right: 5px;
@@ -104,16 +104,16 @@ div.requirement {
     border: 1px solid #7A7265;
 }
 
-div.requirement:last-child {
+div.requirement_set:last-child {
     margin-right: 0px;
 }
 
-div.requirement table {
+div.requirement_set table {
     margin-top: 5px;
     width: 100%;
 }
 
-div.requirement a {
+div.requirement_set a {
     font-size: 20px;
     color: #171219;
     font-weight: bold;

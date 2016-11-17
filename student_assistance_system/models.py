@@ -42,24 +42,37 @@ class Requirement(models.Model):
         course_set.query = pickle.loads(self.query)
         return course_set
 
-    def fulfillment_status(self, user, schedule):
+    def get_course_statuses(self, user, schedule):
+        """
+        Gets the statuses for the set of courses that can fulfill this requirement.
+        Possible status values: 'U' is unfulfilled, 'F' is fulfilled, and 'S' is fulfilled by the schedule
+        :param user:
+        :param schedule:
+        :return: A dict mapping courses to statuses
+        """
         course_set = self.get_course_set()
-        prev_completed = filter(lambda cc: course_set.filter(id=cc.course.id).exists(), user.profile.completedcourse_set.all())
-        sched_completed = filter(lambda c: course_set.filter(id=c.id).exists(), map(lambda s: s.course, schedule.sections.all()))
-        if self.required_classes is not None:
-            count = len(prev_completed)
-            if count >= self.required_classes:
-                return 'fulfilled'
-            else:
-                count += len(sched_completed)
-                return 'schedule_fulfills' if count >= self.required_classes else 'unfulfilled'
-        else:
-            hours = sum([c.credit_hours for c in prev_completed], 0)
+        course_statuses = dict.fromkeys(course_set, 'U')
+        for course in user.profile.completedcourse_set.filter(course__in=course_set):
+            course_statuses[course] = 'F'
+        for course in schedule.sections.filter(course__in=course_set):
+            course_statuses[course] = 'S'
+        return course_statuses
+
+    def fulfillment_status(self, course_statuses):
+        completed = [course for course, status in course_statuses if status == 'F']
+        scheduled = [course for course, status in course_statuses if status == 'S']
+        if self.required_hours is not None:
+            hours = sum([course.credit_hours for course in completed], 0)
             if hours >= self.required_hours:
-                return 'fulfilled'
-            else:
-                hours += sum([c.credit_hours for c in sched_completed], 0)
-                return 'schedule_fulfills' if hours >= self.required_hours else 'unfulfilled'
+                return 'F'
+            hours += sum([course.credit_hours for course in scheduled], 0)
+            return 'S' if hours >= self.required_hours else 'U'
+        else:
+            count = len(completed)
+            if count >= self.required_classes:
+                return 'F'
+            count += len(scheduled)
+            return 'S' if count >= self.required_classes else 'U'
 
     def __unicode__(self):
         return self.name

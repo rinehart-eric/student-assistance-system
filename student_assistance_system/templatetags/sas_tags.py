@@ -14,5 +14,5 @@ def requirements_view(context, req_sets):
 
 
 @register.simple_tag
-def fulfillment_status(requirement, user, schedule):
-    return requirement.fulfillment_status(user, schedule)
+def get_courses_fulfilling(requirement, user, schedule):
+    return requirement.get_courses_fulfilling(user, schedule)
