@@ -121,6 +121,8 @@ class Section(models.Model):
     location = models.CharField(max_length=30)
 
 
+
+
 class Schedule(models.Model):
     name = models.CharField(max_length=50)
     sections = models.ManyToManyField(Section)
@@ -129,6 +131,11 @@ class Schedule(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def delete_section(self, section):
+        if section is None:
+            raise ValueError('No Section Selected')
+        self.sections.remove(section)
 
 
 class CompletedCourse(models.Model):

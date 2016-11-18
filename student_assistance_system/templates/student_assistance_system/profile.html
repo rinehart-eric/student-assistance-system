@@ -4,13 +4,17 @@
 
 {% block content %}
 <div id="centerText">
-<h1>Viewing profile: {{ user.username }}</h1>
+<h1>Viewing profile Information: {{ user.username }}</h1>
     </div>
 <h2> Name: {{user.profile.name}}</h2>
 <h2> Graduation Year: {{user.profile.year}} </h2>
-<h2> Minors:
+<h2> Majors:
+{% for major in user.usermajor.all %}
+    {{ major.name }}
+{% endfor %}</h2>
+<h2> Minors:<br/>
 {% for minor in user.profile.minors.all %}
-    {{ minor.name }}
+    <h3>{{ minor}}</h3>
 
 {% endfor %} </h2>
 {% endblock %}
