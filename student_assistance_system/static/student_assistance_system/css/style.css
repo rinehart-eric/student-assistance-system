@@ -63,6 +63,8 @@ div#content {
 }
 
 div#content h1 {
+    margin: 10px 0px;
+    color: #171219;
     font-weight: bold;
 }
 
@@ -98,7 +100,7 @@ div#requirement_sets {
 
 div.requirement_set {
     flex-basis: 100%;
-    padding: 2px;
+    padding: 0px;
     margin-right: 5px;
     height: 0%;
     border: 1px solid #7A7265;
@@ -114,7 +116,7 @@ div.requirement_set table {
 }
 
 div.requirement_set h2 {
-    margin: 0px;
+    margin: 2px;
     font-size: 20px;
     color: #171219;
     font-weight: bold;
@@ -124,12 +126,23 @@ div.requirement_set hr {
     margin: 0px 0px 2px 0px;
 }
 
+div.requirement {
+    background: #1D2D56;
+    border-radius: 3px;
+    padding: 2px;
+    margin: 2px;
+}
+
 div.requirement a {
     margin: 0px;
     font-size: 16px;
-    color: #171219;
+    color: #F3F9D2;
     font-weight: bold;
     text-decoration: none;
+}
+
+div.course_table {
+    display: none;
 }
 
 td.fulfilled {

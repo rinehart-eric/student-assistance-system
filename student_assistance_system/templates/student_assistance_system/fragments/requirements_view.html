@@ -14,7 +14,7 @@
         {% get_course_statuses req user schedule as course_statuses %}
         {% fulfillment_status req course_statuses as req_status %}
         <a href="#" onclick="showHideDiv('course_table{{ forloop.counter }}')">{{ req.name }}: {{ req_status }}</a>
-        <div id="course_table{{ forloop.counter }}" style="display: none">
+        <div id="course_table{{ forloop.counter }}" class="course_table">
             <table>
                 <tr>
                     <th>Course</th>
