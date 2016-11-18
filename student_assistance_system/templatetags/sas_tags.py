@@ -13,11 +13,21 @@ def requirements_view(context, req_sets):
     return dict(user=context['user'], req_sets=req_sets, schedule=context['schedule'])
 
 
-@register.simple_tag
+@register.assignment_tag
 def get_course_statuses(requirement, user, schedule):
     return requirement.get_course_statuses(user, schedule)
 
 
-@register.simple_tag
+@register.assignment_tag
 def fulfillment_status(requirement, course_statuses):
     return requirement.fulfillment_status(course_statuses)
+
+
+@register.simple_tag
+def long_status(abbr):
+    if abbr == 'S':
+        return "Fulfilled by schedule"
+    elif abbr == 'U':
+        return "Unfulfilled"
+    else:
+        return "Fulfilled"

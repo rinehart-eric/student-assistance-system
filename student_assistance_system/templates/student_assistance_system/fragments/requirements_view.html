@@ -13,7 +13,7 @@
     <div class="requirement">
         {% get_course_statuses req user schedule as course_statuses %}
         {% fulfillment_status req course_statuses as req_status %}
-        <a href="#" onclick="showHideDiv('course_table{{ forloop.counter }}')">{{ req.name }}: {{ req_status }}</a>
+        <a href="#" onclick="showHideDiv('course_table{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
         <div id="course_table{{ forloop.counter }}" class="course_table">
             <table>
                 <tr>
@@ -24,11 +24,11 @@
                 <tr>
                     <td>{{ course }}</td>
                     {% if status == 'U' %}
-                    <td class="unfulfilled" title="Unfulfilled" />
+                    <td class="unfulfilled" title="{% long_status status %}"></td>
                     {% elif status == 'S' %}
-                    <td class="schedule_fulfills" title="Fulfilled by schedule" />
+                    <td class="schedule_fulfills" title="{% long_status status %}"></td>
                     {% elif status == 'F' %}
-                    <td class="fulfilled" title="Fulfilled" />
+                    <td class="fulfilled" title="{% long_status status %}"></td>
                     {% endif %}
                 </tr>
                 {% endfor %}
