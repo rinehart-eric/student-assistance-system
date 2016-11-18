@@ -1,17 +1,11 @@
-from datetime import date
+from autofixture import AutoFixture
 from django.test import TestCase
-from student_assistance_system.models import RequirementSet, Department
+from student_assistance_system.models import RequirementSet, Requirement
 
 
 class RequirementSetTest(TestCase):
     def setUp(self):
-        test_dept = Department.objects.create(full_name='test', abbr_name='test')
-        self.test_reqs = RequirementSet.objects.create(
-            name='Test Reqs',
-            department=test_dept,
-            type=0,
-            effective_date=date.today()
-        )
+        self.test_reqs = AutoFixture(RequirementSet, generate_fk=True).create_one()
 
     def test_requirementset_type(self):
         values = {
@@ -23,3 +17,8 @@ class RequirementSetTest(TestCase):
         for reqs_type in values:
             self.test_reqs.type = reqs_type
             self.assertEqual(self.test_reqs.type_name(), values[reqs_type])
+
+"""
+class RequirementTest(TestCase):
+    def setUp(self):
+"""
