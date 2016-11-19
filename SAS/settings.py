@@ -126,6 +126,7 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=student_assistance_system',
     '--cover-html',
+    '--verbosity=2',
 ]
 
 

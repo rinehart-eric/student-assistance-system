@@ -52,8 +52,8 @@ class Requirement(models.Model):
         """
         course_set = self.get_course_set()
         course_statuses = dict.fromkeys(course_set, 'U')
-        for course in user.profile.completedcourse_set.filter(course__in=course_set):
-            course_statuses[course] = 'F'
+        for cc in user.profile.completedcourse_set.filter(course__in=course_set):
+            course_statuses[cc.course] = 'F'
         for section in schedule.sections.filter(course__in=course_set):
             course_statuses[section.course] = 'S'
         return course_statuses
@@ -85,13 +85,14 @@ class Requirement(models.Model):
 
 
 def create_requirement(requirement_name, required_hours, required_classes, queryset):
-    if required_hours is None and required_classes is None:
-        raise ValueError('Number of required hours and number of required classes cannot both be empty')
-    query = pickle.dumps(queryset.query)
-    return Requirement.objects.create(name=requirement_name,
-                                      required_hours=required_hours,
-                                      required_classes=required_classes,
-                                      query=query)
+    if (required_hours is None) ^ (required_classes is None):
+        query = pickle.dumps(queryset.query)
+        return Requirement.objects.create(name=requirement_name,
+                                          required_hours=required_hours,
+                                          required_classes=required_classes,
+                                          query=query)
+    else:
+        raise ValueError('One of required_hours and required_classes must be None and the other must have a value')
 
 
 class RequirementSet(models.Model):
