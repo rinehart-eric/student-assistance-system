@@ -2,6 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View, generic
+from django.db.models import Q
+
 from .models import Section
 
 
@@ -19,7 +21,7 @@ class IndexView(View):
         req_sets = self.get_requirement_sets(p)
         most_recently_updated_schedule = max(schedules, key=lambda s: s.updated) if schedules else None
 
-        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets))
+        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets, schedules=schedules))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -32,22 +34,39 @@ class SearchView(View):
 
 @method_decorator(login_required, name='dispatch')
 class SearchResultsView(generic.ListView):
+    model = Section
     template_name = 'student_assistance_system/search_results.html'
     context_object_name = "sections"
     paginate_by = 1
 
+    def filter_by_name(self, request, sections):
+        name = request.get('name')
+        if name:
+            return sections.filter(Q(course__name__icontains=name))
+        return sections
+
+    def filter_by_professor(self, request):
+        professor = request.get('prof')
+        if professor:
+            return Q(professor__icontains=professor)
+
+    def filter_by_course_number(self, request):
+        lower_course_number = request.get('num1')
+        upper_course_number = request.get('num2')
+
+    def filter_by_department(self, request):
+        department = request.get('dep')
+
+
     def get_queryset(self):
         get_req = self.request.GET
-        name = get_req.get('name')
-        lower_course_number = get_req.get('num1')
-        upper_course_number = get_req.get('num2')
-        department = get_req.get('dep')
-        professor = get_req.get('prof')
+        print(get_req.get('name'))
         sections = Section.objects.all()
-        if professor:
-            sections.filter(professor=professor)
+        sections = self.filter_by_name(get_req, sections)
         print(sections)
         return sections
+
+
 
 @method_decorator(login_required, name='dispatch')
 class ViewScheduleView(IndexView):
