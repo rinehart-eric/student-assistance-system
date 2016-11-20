@@ -15,7 +15,7 @@
         <td valign="top">{{ section.course.name }}</td>
 
         <td valign="top">
-            {% for m in section.meeting_times.all %}
+            {% for m in section.condensed_meeting_times %}
                 {{m}} <br>
             {% endfor %}
         </td>
