@@ -20,7 +20,7 @@ class Department(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5000)
-    course_number = models.CharField(max_length=3)
+    course_number = models.CharField(max_length=4)
     department = models.ForeignKey(Department)
     credit_hours = models.IntegerField()
     prereqs = models.ManyToManyField('self', symmetrical=False)

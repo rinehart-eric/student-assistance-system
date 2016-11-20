@@ -1,0 +1,26 @@
+{% extends "student_assistance_system/base_site.html" %}
+
+{% block location %}Advanced Search{% endblock %}
+
+{% block content %}
+
+<form action="/results/" method="get">
+    <div id="centerText">
+    <h1>Advanced Search</h1>
+        </div>
+    <p>Class Name: <input type="text" name="name"> </p>
+    <p> Class Number: <input type="text" name="num1"> To <input type="text" name="num2"></p>
+    <p> Class Department: <input type="text" name="dep"> </p>
+    <p> Meeting Times:
+        M<input type="checkbox">
+        T<input type="checkbox">
+        W<input type="checkbox">
+        TH<input type="checkbox">
+        F<input type="checkbox">
+        between <input type="time" placeholder="Start time"> and
+        <input type="time" placeholder="End time">
+    </p>
+    <p>Professor: <input type="text" name="prof"> </p>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
