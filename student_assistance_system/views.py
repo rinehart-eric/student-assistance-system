@@ -98,6 +98,18 @@ class ViewScheduleView(IndexView):
         schedules = request.user.profile.schedule_set.all()
         return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
 
+@method_decorator(login_required, name='dispatch')
+class RemoveSectionScheduleView(IndexView):
+    template_name = 'student_assistance_system/view_schedule.html'
+    def get(self, request, *args, **kwargs):
+        p = request.user.profile
+        schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
+        req_sets = self.get_requirement_sets(p)
+        schedules = request.user.profile.schedule_set.all()
+        section = schedule.sections.all().filter(pk=self.kwargs['section_id']).first()
+        schedule.delete_section(section)
+        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
+
 
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):

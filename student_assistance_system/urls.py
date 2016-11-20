@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view(), name='index'),
     url(r'^schedules/(?P<schedule_id>[0-9]+)/$', ViewScheduleView.as_view(), {'editing': False}, name='view_schedule'),
     url(r'^schedules/(?P<schedule_id>[0-9]+)/edit/$', ViewScheduleView.as_view(), {'editing': True}, name='edit_schedule'),
+    url(r'^schedules/(?P<schedule_id>[0-9]+)/edit/(?P<section_id>[0-9]+)/remove/$', RemoveSectionScheduleView.as_view(), {'editing': True}, name='remove_section'),
     url(r'^accounts/profile/$', ProfileView.as_view(), name='profile'),
     url(r'^search', SearchView.as_view()),
     url(r'^results', SearchResultsView.as_view(), name='courses'),

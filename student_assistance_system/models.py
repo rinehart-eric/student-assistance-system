@@ -177,6 +177,7 @@ class Schedule(models.Model):
         if section is None:
             raise ValueError('No Section Selected')
         self.sections.remove(section)
+        self.save()
 
 
 class CompletedCourse(models.Model):

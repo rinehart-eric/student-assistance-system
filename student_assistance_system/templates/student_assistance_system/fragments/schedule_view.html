@@ -1,6 +1,6 @@
 {% if editing %}
 <h1>Editing schedule: {{ schedule.name }}</h1>
-<h2><a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">View Schedule</a></h2>
+<h2></h2><a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">View Schedule</a></h2>
 {% else %}
 <h1>Viewing schedule: {{ schedule.name }}</h1>
 <h2><a href = "{% url 'student_assistance_system:edit_schedule' schedule.id %}">Edit Schedule</a></h2>
@@ -29,7 +29,12 @@
         <td valign="top">{{ section.location }}</td>
         <td valign="top">{{ section.enrolled }}</td>
         <td valign="top">{{ section.capacity }}</td>
-        {% if editing %}<td valign="top"><button>X</button></td>{% endif %}
+        {% if editing %}<td valign="top">
+            <form method="get" action="{% url 'student_assistance_system:remove_section' schedule.id section.id%}">
+                {% csrf_token %}
+                <input type="submit" value="X" />
+            </form>
+        </td>{% endif %}
 
     </tr>
     {% endfor %}
