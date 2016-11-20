@@ -18,7 +18,7 @@ div#top {
 }
 
 div#header {
-    width: 60%;
+    width: 70%;
     height: 100%;
     margin: auto;
 }
@@ -58,11 +58,13 @@ div#links p, div#links p b, div#links p a {
 
 div#content {
     margin: 60px auto;
-    width: 60%;
+    width: 70%;
     height: 100%;
 }
 
 div#content h1 {
+    margin: 10px 0px;
+    color: #171219;
     font-weight: bold;
 }
 
@@ -91,11 +93,56 @@ table#schedule {
     color: #666666;
 }
 
-div#requirements a {
+div#requirement_sets {
+    width: 100%;
+    display: flex;
+}
+
+div.requirement_set {
+    flex-basis: 100%;
+    padding: 0px;
+    margin-right: 5px;
+    height: 0%;
+    border: 1px solid #7A7265;
+}
+
+div.requirement_set:last-child {
+    margin-right: 0px;
+}
+
+div.requirement_set table {
+    margin-top: 2px;
+    width: 100%;
+}
+
+div.requirement_set h2 {
+    margin: 2px;
     font-size: 20px;
     color: #171219;
     font-weight: bold;
-    margin: 0px 0px 5px 0px;
+}
+
+div.requirement_set hr {
+    margin: 0px 0px 2px 0px;
+}
+
+div.requirement {
+    background: #0D1426;
+    border-radius: 3px;
+    padding: 3px;
+    margin: 2px;
+}
+
+div.requirement a {
+    margin: 0px;
+    font-size: 16px;
+    color: #F3F9D2;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+div.course_table {
+    display: none;
 }
 
 div#scheduleList a {
@@ -106,10 +153,16 @@ div#scheduleList a {
 }
 
 td.fulfilled {
-    background-image: url("../images/fulfilled.png");
+    background: #534E46 url("../images/fulfilled.png") no-repeat center center;
+    background-size: auto 90%;
+}
+
+td.schedule_fulfills {
+    background: #534E46 url("../images/fulfilled_by_schedule.png") no-repeat center center;
+    background-size: auto 90%;
 }
 
 td.unfulfilled {
-    background: url("../images/unfulfilled.png") no-repeat center center;
+    background: #534E46 url("../images/unfulfilled.png") no-repeat center center;
     background-size: auto 90%;
 }

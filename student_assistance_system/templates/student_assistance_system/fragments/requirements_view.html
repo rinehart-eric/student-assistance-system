@@ -3,24 +3,39 @@
 
 <script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
 
-<div id="requirements">
 <h1>Requirements</h1>
+<div id="requirement_sets">
 {% for req_set in req_sets %}
-<a onclick="showHideDiv('set_content{{ forloop.counter }}')" href="#">{{ req_set.name }} ({{ req_set.type_name }})</a>
-<div id="set_content{{ forloop.counter }}" style="display: none">
-    <table border="1">
-        <tr>
-            <th>Requirement</th>
-            <th>Status</th>
-        </tr>
-        {% for req in req_set.requirements.all %}
-        {% fulfilled req user as req_fulfilled %}
-        <tr>
-            <td>{{ req }}</td>
-            <td class="{% if req_fulfilled %}fulfilled{% else %}unfulfilled{% endif %}" />
-        </tr>
-        {% endfor %}
-    </table>
-</div><br /><br />
+<div class="requirement_set">
+    <h2>{{ req_set.type_name }}: {{ req_set.name }}</h2>
+    <hr />
+    {% for req in req_set.requirements.all %}
+    <div class="requirement">
+        {% get_course_statuses req user schedule as course_statuses %}
+        {% fulfillment_status req course_statuses as req_status %}
+        <a href="#" onclick="showHideDiv('course_table{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
+        <div id="course_table{{ forloop.counter }}" class="course_table">
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Status</th>
+                </tr>
+                {% for course, status in course_statuses.items %}
+                <tr>
+                    <td>{{ course }}</td>
+                    {% if status == 'U' %}
+                    <td class="unfulfilled" title="{% long_status status %}"></td>
+                    {% elif status == 'S' %}
+                    <td class="schedule_fulfills" title="{% long_status status %}"></td>
+                    {% elif status == 'F' %}
+                    <td class="fulfilled" title="{% long_status status %}"></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% endfor %}
 </div>

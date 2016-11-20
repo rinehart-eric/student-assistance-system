@@ -1,4 +1,4 @@
-Our project requires python-2.7, django 1.10.2, and django-nose 1.4.4
+Our project requires python-2.7, django 1.10.2, django-nose 1.4.4, and django-autofixture 0.12.1
 
 The code can be run after cloning by:
  1. calling 'python manage.py runserver'

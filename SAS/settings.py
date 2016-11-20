@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_nose',
+    'autofixture',
 ]
 
 MIDDLEWARE = [
@@ -125,6 +126,7 @@ NOSE_ARGS = [
     '--with-coverage',
     '--cover-package=student_assistance_system',
     '--cover-html',
+    '--verbosity=2',
 ]
 
 
