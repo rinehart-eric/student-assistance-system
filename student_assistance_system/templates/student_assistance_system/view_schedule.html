@@ -3,7 +3,7 @@
 {% load sas_tags %}
 {% block location %}Schedule{% endblock %}
 {% if schedule %}
-    Viewing schedule: {{ schedule.name }}
+    {% if editing %}Editing{% else %}Viewing{% endif %} schedule: {{ schedule.name }}
 {% else %}
     Schedule not found
 {% endif %}
@@ -11,12 +11,17 @@
 
 {% block content %}
 {% if schedule %}
-    {% schedule_view schedule %}
+    {% if editing %}
+        {% schedule_edit schedule %}
+    {% else %}
+        {% schedule_view schedule %}
+    {% endif %}
 {% else %}
     <h1>This schedule does not exist.</h1>
 {% endif %}
-
+<br />
 {% if req_sets %}
     {% requirements_view req_sets %}
 {% endif %}
 {% endblock %}
+3

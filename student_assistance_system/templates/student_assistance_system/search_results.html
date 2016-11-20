@@ -1,0 +1,54 @@
+{% extends "student_assistance_system/base_site.html" %}
+
+{% block location %}Advanced Search{% endblock %}
+
+{% block content %}
+ <div id="centerText">
+    <h1>Search Results</h1>
+ </div>
+{% if sections %}
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Number</th>
+            <th>Students Enrolled</th>
+            <th>Capacity</th>
+            <th>Location</th>
+            <th>Professor</th>
+            <th>Department</th>
+        </tr>
+        {% for section in sections %}
+            <tr>
+                <td>{{ section.course }}</td>
+                <td>{{ section.course.course_number }}</td>
+                <td>{{ section.enrolled }}</td>
+                <td>{{ section.capacity }}</td>
+                <td>{{ section.location }}</td>
+                <td>{{ section.professor }}</td>
+                <td>{{section.course.department}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    {% if is_paginated %}
+        <div class="pagination">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        previous
+                    </a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        next
+                    </a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
+{% else %}
+    <p>No Courses found </p>
+{% endif %}
+{% endblock %}

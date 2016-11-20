@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 import calendar
+from collections import defaultdict
 import pickle
 
 from django.db import models
@@ -20,7 +21,7 @@ class Department(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=50)
     description = models.CharField(max_length=5000)
-    course_number = models.CharField(max_length=3)
+    course_number = models.CharField(max_length=4)
     department = models.ForeignKey(Department)
     credit_hours = models.IntegerField()
     prereqs = models.ManyToManyField('self', symmetrical=False)
@@ -41,26 +42,57 @@ class Requirement(models.Model):
         course_set.query = pickle.loads(self.query)
         return course_set
 
-    def is_fulfilled_by(self, user):
+    def get_course_statuses(self, user, schedule):
+        """
+        Gets the statuses for the set of courses that can fulfill this requirement.
+        Possible status values: 'U' is unfulfilled, 'F' is fulfilled, and 'S' is fulfilled by the schedule
+        :param user:
+        :param schedule:
+        :return: A dict mapping courses to statuses
+        """
         course_set = self.get_course_set()
-        completed_courses = filter(lambda cc: course_set.contains(cc.course), user.profile.completedcourse_set.all())
-        if self.required_classes is not None:
-            return len(completed_courses) >= self.required_classes
+        course_statuses = dict.fromkeys(course_set, 'U')
+        for cc in user.profile.completedcourse_set.filter(course__in=course_set):
+            course_statuses[cc.course] = 'F'
+        for section in schedule.sections.filter(course__in=course_set):
+            course_statuses[section.course] = 'S'
+        return course_statuses
+
+    def fulfillment_status(self, course_statuses):
+        """
+        Gets the overall status for the requirement given the fulfillment statuses of its course set
+        Possible status values: 'U' is unfulfilled, 'F' is fulfilled, and 'S' is fulfilled by the schedule
+        :param course_statuses:
+        :return: The overall status for the requirement
+        """
+        completed = [course for course, status in course_statuses.items() if status == 'F']
+        scheduled = [course for course, status in course_statuses.items() if status == 'S']
+        if self.required_hours is not None:
+            hours = sum([course.credit_hours for course in completed], 0)
+            if hours >= self.required_hours:
+                return 'F'
+            hours += sum([course.credit_hours for course in scheduled], 0)
+            return 'S' if hours >= self.required_hours else 'U'
         else:
-            return sum([c.credit_hours for c in completed_courses], 0) >= self.required_hours
+            count = len(completed)
+            if count >= self.required_classes:
+                return 'F'
+            count += len(scheduled)
+            return 'S' if count >= self.required_classes else 'U'
 
     def __unicode__(self):
         return self.name
 
 
 def create_requirement(requirement_name, required_hours, required_classes, queryset):
-    if required_hours is None and required_classes is None:
-        raise ValueError('Number of required hours and number of required classes cannot both be empty')
-    query = pickle.dumps(queryset.query)
-    return Requirement.objects.create(name=requirement_name,
-                                      required_hours=required_hours,
-                                      required_classes=required_classes,
-                                      query=query)
+    if (required_hours is None) ^ (required_classes is None):
+        query = pickle.dumps(queryset.query)
+        return Requirement.objects.create(name=requirement_name,
+                                          required_hours=required_hours,
+                                          required_classes=required_classes,
+                                          query=query)
+    else:
+        raise ValueError('One of required_hours and required_classes must be None and the other must have a value')
 
 
 class RequirementSet(models.Model):
@@ -105,6 +137,9 @@ class MeetingTime(models.Model):
     start_time = models.TimeField()
     end_time = models.TimeField()
 
+    def day_abbr(self):
+        return ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'][self.day]
+
     def __unicode__(self):
         return ' '.join((calendar.day_name[self.day],
                          self.start_time.strftime('%H:%M'),
@@ -119,6 +154,12 @@ class Section(models.Model):
     meeting_times = models.ManyToManyField(MeetingTime)
     professor = models.CharField(max_length=30)
     location = models.CharField(max_length=30)
+
+    def condensed_meeting_times(self):
+        times = defaultdict(list)
+        for time in self.meeting_times.all():
+            times[(time.start_time, time.end_time)].append(time.day_abbr())
+        return [''.join(days) + ' ' + st.strftime('%-I:%M%p') + ' - ' + end.strftime('%-I:%M%p') for (st, end), days in times.iteritems()]
 
 
 
