@@ -5,12 +5,12 @@ register = template.Library()
 
 @register.inclusion_tag('student_assistance_system/fragments/schedule_view.html')
 def schedule_view(schedule):
-    return dict(schedule=schedule)
+    return dict(schedule=schedule, editing=False)
 
 
-@register.inclusion_tag('student_assistance_system/fragments/schedule_edit.html')
+@register.inclusion_tag('student_assistance_system/fragments/schedule_view.html')
 def schedule_edit(schedule):
-    return dict(schedule=schedule)
+    return dict(schedule=schedule, editing=True)
 
 
 @register.inclusion_tag('student_assistance_system/fragments/requirements_view.html', takes_context=True)
@@ -36,9 +36,3 @@ def long_status(abbr):
         return "Unfulfilled"
     else:
         return "Fulfilled"
-
-
-@register.inclusion_tag('student_assistance_system/fragments/schedule_edit.html')
-def remove_section(schedule, section):
-    schedule.delete_section(section)
-    return dict(schedule=schedule)

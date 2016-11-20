@@ -21,7 +21,6 @@ class IndexView(View):
         return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets, schedules=schedules))
 
 
-
 @method_decorator(login_required, name='dispatch')
 class ViewScheduleView(IndexView):
     template_name = 'student_assistance_system/view_schedule.html'
@@ -31,21 +30,7 @@ class ViewScheduleView(IndexView):
         schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
         req_sets = self.get_requirement_sets(p)
 
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets))
-
-
-@method_decorator(login_required, name='dispatch')
-class EditScheduleView(IndexView):
-    template_name = 'student_assistance_system/edit_schedule.html'
-
-    def get(self, request, *args, **kwargs):
-        p = request.user.profile
-        schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
-        req_sets = self.get_requirement_sets(p)
-        # TODO: create this template
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets))
-
-
+        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing']))
 
 
 @method_decorator(login_required, name='dispatch')

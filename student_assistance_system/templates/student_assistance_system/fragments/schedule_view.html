@@ -1,5 +1,10 @@
+{% if editing %}
+<h1>Editing schedule: {{ schedule.name }}</h1>
+<h2><a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">View Schedule</a></h2>
+{% else %}
 <h1>Viewing schedule: {{ schedule.name }}</h1>
 <h2><a href = "{% url 'student_assistance_system:edit_schedule' schedule.id %}">Edit Schedule</a></h2>
+{% endif %}
 <table id="schedule">
     <tr>
         <th>Course Name</th>
@@ -8,6 +13,7 @@
         <th>Location</th>
         <th>Enrolled</th>
         <th>Capacity</th>
+        {% if editing %}<th>Delete</th>{% endif %}
 
     </tr>
     {% for section in schedule.sections.all %}
@@ -23,6 +29,7 @@
         <td valign="top">{{ section.location }}</td>
         <td valign="top">{{ section.enrolled }}</td>
         <td valign="top">{{ section.capacity }}</td>
+        {% if editing %}<td valign="top"><button>X</button></td>{% endif %}
 
     </tr>
     {% endfor %}
