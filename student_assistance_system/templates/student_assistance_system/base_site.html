@@ -16,17 +16,6 @@
         <div id="links"><p>Logged in as <b>{{ user.profile.name }}</b>&nbsp;|&nbsp;<a
             href="{% url 'student_assistance_system:profile' %}">View Profile</a>&nbsp;|&nbsp;<a
             href="{% url 'student_assistance_system:logout' %}">Logout</a> |
-
-            <a onclick="showHideDiv('schedule_list')" href="#"> Schedule</a>
-            <div id="schedule_list" style="display: none">
-                {% for schedule in schedules %}
-                <h3>
-                    <a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">
-                        {{schedule.name}}
-                    </a>
-                </h3>
-            {% endfor %}
-            </div>
             <div class = "dropdown">
                 <button onclick="showHideDiv('myDropdown')" class="dropbtn">Schedules</button>
                 <div id="myDropdown" class="dropdown-content">
@@ -35,8 +24,11 @@
                         <br>
                     {% endfor %}
                 </div>
+                </p>
             </div>
-            </p>
+            </div>
+
+
 
 
 

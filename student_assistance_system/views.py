@@ -95,8 +95,8 @@ class ViewScheduleView(IndexView):
         p = request.user.profile
         schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
         req_sets = self.get_requirement_sets(p)
-
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing']))
+        schedules = request.user.profile.schedule_set.all()
+        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -104,4 +104,5 @@ class ProfileView(View):
     template_name = 'student_assistance_system/profile.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, dict(user=request.user))
+        schedules = request.user.profile.schedule_set.all()
+        return render(request, self.template_name, dict(user=request.user, schedules=schedules))
