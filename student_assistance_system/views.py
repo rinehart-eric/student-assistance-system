@@ -13,7 +13,7 @@ class IndexView(View):
 
     def get_requirement_sets(self, p):
         majors_and_concentrations = [(um.major, um.concentration) for um in p.usermajor_set.all()]
-        return list(p.minors.all()) + list(sum(majors_and_concentrations, ()))
+        return list(sum(majors_and_concentrations, ())) + list(p.minors.all())
 
     def get(self, request, *args, **kwargs):
         p = request.user.profile

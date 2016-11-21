@@ -153,16 +153,11 @@ div#scheduleList a {
 }
 
 td.fulfilled {
-    background: #534E46 url("../images/fulfilled.png") no-repeat center center;
+    background: url("../images/fulfilled.png") no-repeat center center;
     background-size: auto 90%;
 }
 
 td.schedule_fulfills {
-    background: #534E46 url("../images/fulfilled_by_schedule.png") no-repeat center center;
-    background-size: auto 90%;
-}
-
-td.unfulfilled {
-    background: #534E46 url("../images/unfulfilled.png") no-repeat center center;
+    background: url("../images/fulfilled_by_schedule.png") no-repeat center center;
     background-size: auto 90%;
 }
