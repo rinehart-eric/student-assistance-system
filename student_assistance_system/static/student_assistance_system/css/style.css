@@ -166,9 +166,10 @@ td.schedule_fulfills {
 .dropbtn {
     background-color: grey;
     color: black;
-    padding: 16px;
+    padding: 6px;
+    top: 20px;
     font-size: 16px;
-    border: none;
+    border: ridge;
     cursor: pointer;
 
 }
@@ -197,8 +198,5 @@ td.schedule_fulfills {
     display: block;
 }
 
-/* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
 
-/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
-.show {display:block;}
+
