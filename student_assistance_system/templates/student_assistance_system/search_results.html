@@ -19,7 +19,7 @@
         </tr>
         {% for section in sections %}
             <tr>
-                <td>{{ section.course }}</td>
+                <td><a href="{% url 'student_assistance_system:view_section' section.id%}">{{ section.course }}</a></td>
                 <td>{{ section.course.course_number }}</td>
                 <td>{{ section.enrolled }}</td>
                 <td>{{ section.capacity }}</td>
