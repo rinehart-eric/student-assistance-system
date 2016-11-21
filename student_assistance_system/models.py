@@ -162,8 +162,6 @@ class Section(models.Model):
         return [''.join(days) + ' ' + st.strftime('%-I:%M%p') + ' - ' + end.strftime('%-I:%M%p') for (st, end), days in times.iteritems()]
 
 
-
-
 class Schedule(models.Model):
     name = models.CharField(max_length=50)
     sections = models.ManyToManyField(Section)
