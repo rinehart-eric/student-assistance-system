@@ -58,3 +58,8 @@ class ViewScheduleTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
         self.client.logout()
 
+    def test_edit_schedule_authorized(self):
+        self.validate_login()
+        url = reverse("student_assistance_system:view_schedule", kwargs={'schedule_id': 3})
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
+        self.client.logout()

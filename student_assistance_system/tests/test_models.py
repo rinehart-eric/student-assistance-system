@@ -99,3 +99,16 @@ class RequirementTest(TestCase):
         self.add_last_section()
         self.set_req_hours(40)
         self.check_fulfillment('S')
+
+class ScheduleTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = AutoFixture(User, generate_fk=True).create_one()
+        cls.schedule = AutoFixture(Schedule, generate_m2m=False, field_values=dict(user=cls.user.profile)).create_one()
+        cls.req_courses = AutoFixture(Course, generate_fk=True, field_values=dict(course_number='101', credit_hours=4)).create(10)
+
+    def test_delete_section(self):
+        section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=self.req_courses[9])).create_one()
+        self.schedule.sections.add(section)
+        self.schedule.delete_section(section)
+        self.assertEqual(self.schedule.sections.count(), 0)
