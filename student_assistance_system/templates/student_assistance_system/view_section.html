@@ -1,0 +1,68 @@
+{% extends "student_assistance_system/base_site.html" %}
+
+{% block location %}View Section{% endblock %}
+
+{% block content %}
+    <div>
+    <h1>Course: {{ section.course }}</h1>
+    </div>
+    <table class="table-section">
+        <tr>
+            <th class="th-section" colspan="2">Course information</th>
+        </tr>
+        <tr>
+            <td class="td-section">Name: {{ section.course }}</td>
+            <td class="td-section">Number: {{ section.course.course_number }}</td>
+        </tr>
+        <tr>
+            <td class="td-section">Professor: {{ section.professor }}</td>
+            <td class="td-section">Department: {{section.course.department}}</td>
+        </tr>
+        <tr>
+            <td class="td-section">Students Enrolled: {{ section.enrolled }}</td>
+            <td class="td-section">Capacity: {{ section.capacity }}</td>
+        </tr>
+        <tr>
+            <td class="td-section">Credit Hours: {{ section.course.credit_hours }}</td>
+        </tr>
+    </table>
+    <table class="table-section">
+        <tr>
+            <th class="th-section" colspan="2">Meeting Information</th>
+        </tr>
+        <tr>
+            <td class="td-section">
+                Meeting Times: {% for m in section.condensed_meeting_times %}
+                    {{m}} <br>
+                {% endfor %}
+            </td>
+            <td class="td-section">Location: {{ section.location}}</td>
+        </tr>
+    </table>
+    {% if section.course.description %}
+    <table class="table-section">
+        <tr>
+            <th class="th-section">Description</th>
+        </tr>
+        <tr>
+            <td class="td-section">
+                {{section.course.description}}
+            </td>
+        </tr>
+    </table>
+    {% endif %}
+    <div>
+        <form method="get" >
+            <p>Add To Schedule: &nbsp&nbsp&nbsp&nbsp
+                <select>
+                    {% for schedule in schedules %}
+                    <option value="{{schedule.id}}">{{schedule}}</option>
+                    {%  endfor %}
+                </select> &nbsp&nbsp&nbsp&nbsp
+                <button type="submit">Add Class</button>
+            </p>
+        </form>
+
+    </div>
+
+{% endblock %}

@@ -198,5 +198,21 @@ td.schedule_fulfills {
     display: block;
 }
 
+.table-section {
+    border: 0px;
+    margin-bottom: 50px;
+}
+
+.td-section {
+    border: 0px;
+    padding-right: 100px;
+}
+
+.th-section {
+    border: 0px;
+    padding-right: 100px;
+    background-color: lightsteelblue;
+}
+
 
 
