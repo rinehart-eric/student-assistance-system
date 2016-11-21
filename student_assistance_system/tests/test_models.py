@@ -95,10 +95,11 @@ class RequirementTest(TestCase):
         self.set_req_hours(35)
         self.check_fulfillment('F')
 
-    def test_fulfillment_status_count_schedule_fulfills(self):
+    def test_fulfillment_status_hours_schedule_fulfills(self):
         self.add_last_section()
         self.set_req_hours(40)
         self.check_fulfillment('S')
+
 
 class ScheduleTest(TestCase):
     @classmethod
