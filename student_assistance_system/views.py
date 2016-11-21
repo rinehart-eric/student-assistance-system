@@ -37,7 +37,7 @@ class SearchResultsView(generic.ListView):
     model = Section
     template_name = 'student_assistance_system/search_results.html'
     context_object_name = "sections"
-    paginate_by = 1
+    paginate_by = 10
 
     def filter_by_name(self, request, sections):
         name = request.get('name')
@@ -69,7 +69,6 @@ class SearchResultsView(generic.ListView):
         context['schedules'] = self.request.user.profile.schedule_set.all()
         return context
 
-
     def get_queryset(self):
         get_req = self.request.GET
         sections = Section.objects.all()
@@ -78,6 +77,18 @@ class SearchResultsView(generic.ListView):
         sections = self.filter_by_department(get_req, sections)
         sections = self.filter_by_course_number(get_req, sections)
         return sections
+
+@method_decorator(login_required, name='dispatch')
+class ViewSectionView(View):
+    template_name = 'student_assistance_system/view_section.html'
+
+    def get(self, request, *args, **kwargs):
+        section_id = self.kwargs['section_id']
+        print(section_id)
+        section = Section.objects.get(id=section_id)
+        p = request.user.profile
+        schedules = p.schedule_set.all()
+        return render(request, self.template_name, dict(section=section, schedules=schedules))
 
 @method_decorator(login_required, name='dispatch')
 class ViewClass(View):
