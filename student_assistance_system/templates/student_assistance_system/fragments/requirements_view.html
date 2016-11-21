@@ -13,14 +13,16 @@
     <div class="requirement">
         {% get_course_statuses req user schedule as course_statuses %}
         {% fulfillment_status req course_statuses as req_status %}
-        <a href="#" onclick="showHideDiv('course_table{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
-        <div id="course_table{{ forloop.counter }}" class="course_table">
+        <a href="#" onclick="showHideDiv('course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
+        <div id="course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="course_table">
             <table>
                 <tr>
                     <th>Course</th>
-                    <th>Status</th>
+                    <th style="width: 5em; text-align: center;">Status</th>
                 </tr>
-                {% for course, status in course_statuses.items %}
+                {% with course_statuses.items as course_status_pairs %}
+                {% for course, status in course_status_pairs %}
+                {% if course_status_pairs|length < 10 or status != 'U' %}
                 <tr>
                     <td>{{ course }}</td>
                     {% if status == 'U' %}
@@ -31,7 +33,9 @@
                     <td class="fulfilled" title="{% long_status status %}"></td>
                     {% endif %}
                 </tr>
+                {% endif %}
                 {% endfor %}
+                {% endwith %}
             </table>
         </div>
     </div>
