@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views import View, generic
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
 
 from .models import Section
 
@@ -84,7 +86,6 @@ class ViewSectionView(View):
 
     def get(self, request, *args, **kwargs):
         section_id = self.kwargs['section_id']
-        print(section_id)
         section = Section.objects.get(id=section_id)
         p = request.user.profile
         schedules = p.schedule_set.all()
@@ -121,6 +122,18 @@ class RemoveSectionScheduleView(IndexView):
         schedule.delete_section(section)
         return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
 
+
+class AddSectionScheduleView(View):
+    template_name = 'student_assistance_system/view_schedule.html'
+
+    def post(self, request, *args, **kwargs):
+        schedule = self.request.POST.get('schedule')
+        section = self.request.POST.get('section')
+        p = request.user.profile
+        schedule = p.schedule_set.get(id=schedule)
+        section = Section.objects.get(id=section)
+        schedule.add_section(section)
+        return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
 
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):

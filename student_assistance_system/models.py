@@ -179,6 +179,12 @@ class Schedule(models.Model):
         self.sections.remove(section)
         self.save()
 
+    def add_section(self, section):
+        if section is None:
+            raise ValueError('No Section Selected')
+        self.sections.add(section)
+        self.save()
+
 
 class CompletedCourse(models.Model):
     user = models.ForeignKey(Profile)

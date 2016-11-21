@@ -52,9 +52,11 @@
     </table>
     {% endif %}
     <div>
-        <form method="get" >
+        <form method="post" action="{% url 'student_assistance_system:add_section'%}">
+            {% csrf_token %}
+            <input type="hidden" value="{{ section.id }}" name="section">
             <p>Add To Schedule: &nbsp&nbsp&nbsp&nbsp
-                <select>
+                <select name="schedule">
                     {% for schedule in schedules %}
                     <option value="{{schedule.id}}">{{schedule}}</option>
                     {%  endfor %}
