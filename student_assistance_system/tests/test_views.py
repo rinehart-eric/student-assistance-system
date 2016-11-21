@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-
+from django.test import RequestFactory
+from student_assistance_system import views
 
 class LoginTestCase(TestCase):
     def setUp(self):
@@ -60,6 +61,9 @@ class ViewScheduleTestCase(LoginTestCase):
 
     def test_edit_schedule_authorized(self):
         self.validate_login()
-        url = reverse("student_assistance_system:view_schedule", kwargs={'schedule_id': 3})
+        url = reverse("student_assistance_system:edit_schedule", kwargs={'schedule_id': 3})
         self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
+        view = self.client.get(url,follow = True)
         self.client.logout()
+
+

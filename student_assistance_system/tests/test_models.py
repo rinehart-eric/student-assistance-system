@@ -110,5 +110,6 @@ class ScheduleTest(TestCase):
     def test_delete_section(self):
         section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=self.req_courses[9])).create_one()
         self.schedule.sections.add(section)
+        self.assertEqual(self.schedule.sections.count(), 1)
         self.schedule.delete_section(section)
         self.assertEqual(self.schedule.sections.count(), 0)
