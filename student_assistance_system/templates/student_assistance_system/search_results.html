@@ -13,7 +13,7 @@
             <th>Number</th>
             <th>Students Enrolled</th>
             <th>Capacity</th>
-            <th>Location</th>
+            <th>Meeting Times</th>
             <th>Professor</th>
             <th>Department</th>
         </tr>
@@ -23,7 +23,11 @@
                 <td>{{ section.course.course_number }}</td>
                 <td>{{ section.enrolled }}</td>
                 <td>{{ section.capacity }}</td>
-                <td>{{ section.location }}</td>
+                <td>
+                    {% for m in section.condensed_meeting_times %}
+                        {{m}} <br>
+                    {% endfor %}
+                </td>
                 <td>{{ section.professor }}</td>
                 <td>{{section.course.department}}</td>
             </tr>
