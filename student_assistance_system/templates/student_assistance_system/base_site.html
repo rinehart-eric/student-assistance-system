@@ -20,8 +20,10 @@
                 <button onclick="showHideDiv('myDropdown')" class="dropbtn">Schedules</button>
                 <div id="myDropdown" class="dropdown-content">
                     {% for schedule in schedules %}
-                        <a href="{% url 'student_assistance_system:view_schedule' schedule.id %}">{{schedule.name}}</a>
-                        <br>
+                    <a href="{% url 'student_assistance_system:view_schedule' schedule.id %}">{{schedule.name}}</a>
+                    {% if not forloop.last %}
+                    <hr />
+                    {% endif %}
                     {% endfor %}
                 </div>
 
