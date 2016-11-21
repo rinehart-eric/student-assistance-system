@@ -22,7 +22,7 @@
                 </tr>
                 {% with course_statuses.items as course_status_pairs %}
                 {% for course, status in course_status_pairs %}
-                {% if course_status_pairs|length < 10 or status != 'U' %}
+                {# {% if course_status_pairs|length < 10 or status != 'U' %} #}
                 <tr>
                     <td>{{ course }}</td>
                     {% if status == 'U' %}
@@ -33,7 +33,7 @@
                     <td class="fulfilled" title="{% long_status status %}"></td>
                     {% endif %}
                 </tr>
-                {% endif %}
+                {# {% endif %} #}
                 {% endfor %}
                 {% endwith %}
             </table>
