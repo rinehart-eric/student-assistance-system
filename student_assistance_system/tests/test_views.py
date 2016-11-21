@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-
+from django.test import RequestFactory
+from student_assistance_system import views
 
 class LoginTestCase(TestCase):
     def setUp(self):
@@ -13,9 +14,11 @@ class LoginTestCase(TestCase):
     def validate_response(self, response, expected_status_code=200, expected_template_name=None):
         self.assertEqual(response.status_code, expected_status_code)
         if expected_template_name:
+            print(response.templates)
             self.assertIsNotNone(response.templates)
             self.assertTrue(expected_template_name in map(lambda t: t.name, response.templates))
         else:
+            print(response.templates)
             self.assertFalse(response.templates)
 
 
@@ -47,3 +50,20 @@ class ProfileTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/profile.html')
 
         self.client.logout()
+
+
+class ViewScheduleTestCase(LoginTestCase):
+    def test_schedule_authorized(self):
+        self.validate_login()
+        url = reverse("student_assistance_system:view_schedule", kwargs={'schedule_id': 3})
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
+        self.client.logout()
+
+    def test_edit_schedule_authorized(self):
+        self.validate_login()
+        url = reverse("student_assistance_system:edit_schedule", kwargs={'schedule_id': 3})
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
+        view = self.client.get(url,follow = True)
+        self.client.logout()
+
+

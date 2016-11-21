@@ -166,11 +166,12 @@ td.schedule_fulfills {
 .dropbtn {
     background-color: grey;
     color: black;
-    padding: 6px;
-    top: 20px;
+    padding: 8px;
     font-size: 16px;
     border: ridge;
     cursor: pointer;
+    position: relative;
+    top: -15px
 
 }
 
