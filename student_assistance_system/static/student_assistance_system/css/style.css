@@ -65,26 +65,30 @@ div#content {
 div#content h1 {
     margin: 10px 0px 5px 0px;
     color: #171219;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 2em;
     display: inline-block;
 }
 
 a#edit {
     background: url("../images/edit.png") no-repeat center center;
+    margin-left: 15px;
 }
 
 a#rename {
     background: url("../images/rename.png") no-repeat center center;
+    margin-left: 5px;
 }
 
 a#edit, a#rename {
-    margin: 0px 0px 0px 5px;
-    background-size: 90%;
+    background-color: #1D2D56;
+    background-size: 75%;
     display: inline-block;
-    height: 1.1em;
-    width: 1.1em;
-    border: 2px outset #171219;
+    height: 1.5em;
+    width: 1.5em;
+    border: 2px solid #859BD1;
+    position: relative;
+    top: 3px;
 }
 
 a#edit:hover, a#rename:hover {
