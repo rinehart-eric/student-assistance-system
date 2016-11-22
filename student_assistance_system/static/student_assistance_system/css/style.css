@@ -15,6 +15,7 @@ div#top {
     position: fixed;
     top: 0px;
     height: 50px;
+    z-index: 10;
 }
 
 div#header {
@@ -72,18 +73,25 @@ div#content h1 {
 
 a#edit {
     background-image: url("../images/edit.png");
+    background-size: 75%;
+    margin-left: 15px;
+}
+
+a#view {
+    background-image: url("../images/view.png");
+    background-size: 90%;
     margin-left: 15px;
 }
 
 a#rename {
     background-image: url("../images/rename.png");
+    background-size: 75%;
     margin-left: 5px;
 }
 
-a#edit, a#rename {
+a#edit, a#rename, a#view {
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 75%;
     display: inline-block;
     height: 1em;
     width: 1em;
