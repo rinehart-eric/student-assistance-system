@@ -1,6 +1,6 @@
 <h1>{% if editing %}Editing{% else %}Viewing{% endif %} schedule: <b>{{ schedule.name }}</b></h1>
-<a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit"></a>&nbsp;
-<a href="#" id="rename"></a>
+<a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit" class="button"></a>&nbsp;
+<a href="#" id="rename" class="button"></a>
 <table id="schedule">
     <tr>
         <th>Course Name</th>
@@ -35,5 +35,6 @@
     </tr>
     {% endfor %}
 </table>
-
-
+<br />
+<a href="{% url 'student_assistance_system:search' %}" class="button">Search Classes</a>
+<br />

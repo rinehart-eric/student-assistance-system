@@ -63,7 +63,7 @@ div#content {
 }
 
 div#content h1 {
-    margin: 10px 0px 5px 0px;
+    margin: 15px 0px 5px 0px;
     color: #171219;
     font-weight: normal;
     font-size: 2em;
@@ -71,28 +71,24 @@ div#content h1 {
 }
 
 a#edit {
-    background: url("../images/edit.png") no-repeat center center;
+    background-image: url("../images/edit.png");
     margin-left: 15px;
 }
 
 a#rename {
-    background: url("../images/rename.png") no-repeat center center;
+    background-image: url("../images/rename.png");
     margin-left: 5px;
 }
 
 a#edit, a#rename {
-    background-color: #1D2D56;
+    background-repeat: no-repeat;
+    background-position: center;
     background-size: 75%;
     display: inline-block;
-    height: 1.5em;
-    width: 1.5em;
-    border: 2px solid #859BD1;
+    height: 1em;
+    width: 1em;
     position: relative;
     top: 3px;
-}
-
-a#edit:hover, a#rename:hover {
-    background-color: #EEEEEE;
 }
 
 table {
@@ -137,27 +133,22 @@ div.requirement_set:last-child {
     margin-right: 0px;
 }
 
-div.requirement_set table {
-    margin-top: 2px;
-    width: 100%;
-}
-
 div.requirement_set h2 {
-    margin: 2px;
+    margin: 3px;
     font-size: 20px;
     color: #171219;
     font-weight: bold;
 }
 
 div.requirement_set hr {
-    margin: 0px 0px 2px 0px;
+    margin: 0px 0px 3px 0px;
 }
 
 div.requirement {
     background: #0D1426;
     border-radius: 3px;
-    padding: 3px;
-    margin: 2px;
+    padding: 4px;
+    margin: 3px;
 }
 
 div.requirement a {
@@ -166,6 +157,11 @@ div.requirement a {
     color: #F3F9D2;
     font-weight: bold;
     text-decoration: none;
+}
+
+div.requirement table {
+    width: 100%;
+    margin-top: 2px;
 }
 
 div.course_table {
@@ -196,21 +192,16 @@ td.schedule_fulfills {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: #1D2D56;
-    color: #F3F9D2;
     padding: 5px;
     font-size: 16px;
-    border: #859BD1 2px solid;
-    cursor: pointer;
     position: relative;
     outline: 0px;
 }
 
-
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
-    top: 10px;
+    top: 13px;
     float: right;
 }
 
@@ -258,4 +249,13 @@ td.schedule_fulfills {
     border: 0px;
     padding-right: 100px;
     background-color: lightsteelblue;
+}
+
+.button {
+    padding: 5px;
+    background-color: #1D2D56;
+    color: #F3F9D2;
+    border: #859BD1 2px solid;
+    cursor: pointer;
+    text-decoration: none;
 }
