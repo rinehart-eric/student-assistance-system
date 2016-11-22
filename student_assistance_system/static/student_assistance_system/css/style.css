@@ -86,7 +86,6 @@ a#view {
 a#rename {
     background-image: url("../images/rename.png");
     background-size: 75%;
-    margin-left: 5px;
 }
 
 a#edit, a#rename, a#view {
