@@ -80,6 +80,11 @@ class Requirement(models.Model):
             count += len(scheduled)
             return 'S' if count >= self.required_classes else 'U'
 
+    def get_course_suggestions(self, course_statuses, schedule):
+        unfulfilled_sections = [s for c, st in course_statuses.items() if st == 'U' for s in c.section_set.all()]
+        valid_suggestions = [s for s in unfulfilled_sections if not any([s.conflicts_with(s2) for s2 in schedule.sections.all()])]
+        return valid_suggestions
+
     def __unicode__(self):
         return self.name
 
@@ -140,6 +145,12 @@ class MeetingTime(models.Model):
     def day_abbr(self):
         return ['M', 'T', 'W', 'Th', 'F', 'Sa', 'Su'][self.day]
 
+    def conflicts_with(self, other_meeting_time):
+        if self.day == other_meeting_time.day:
+            return not (self.end_time < other_meeting_time.start_time or other_meeting_time.end_time < self.start_time)
+        else:
+            return False
+
     def __unicode__(self):
         return ' '.join((calendar.day_name[self.day],
                          self.start_time.strftime('%H:%M'),
@@ -160,6 +171,13 @@ class Section(models.Model):
         for time in self.meeting_times.all():
             times[(time.start_time, time.end_time)].append(time.day_abbr())
         return [''.join(days) + ' ' + st.strftime('%-I:%M%p') + ' - ' + end.strftime('%-I:%M%p') for (st, end), days in times.iteritems()]
+
+    def conflicts_with(self, other_section):
+        for meeting_time in self.meeting_times.all():
+            for other_meeting_time in other_section.meeting_times.all():
+                if meeting_time.conflicts_with(other_meeting_time):
+                    return True
+        return False
 
 
 class Schedule(models.Model):
