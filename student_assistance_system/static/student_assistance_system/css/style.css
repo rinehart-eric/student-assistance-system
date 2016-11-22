@@ -57,15 +57,38 @@ div#links p, div#links p b, div#links p a {
 }
 
 div#content {
-    margin: 60px auto;
+    margin: 50px auto;
     width: 70%;
     height: 100%;
 }
 
 div#content h1 {
-    margin: 10px 0px;
+    margin: 10px 0px 5px 0px;
     color: #171219;
     font-weight: bold;
+    font-size: 2em;
+    display: inline-block;
+}
+
+a#edit {
+    background: url("../images/edit.png") no-repeat center center;
+}
+
+a#rename {
+    background: url("../images/rename.png") no-repeat center center;
+}
+
+a#edit, a#rename {
+    margin: 0px 0px 0px 5px;
+    background-size: 90%;
+    display: inline-block;
+    height: 1.1em;
+    width: 1.1em;
+    border: 2px outset #171219;
+}
+
+a#edit:hover, a#rename:hover {
+    background-color: #EEEEEE;
 }
 
 table {
@@ -143,6 +166,11 @@ div.requirement a {
 
 div.course_table {
     display: none;
+}
+
+div.course_table table {
+    border-width: 1px;
+    margin-top: 5px;
 }
 
 div#scheduleList a {

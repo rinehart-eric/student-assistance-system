@@ -1,10 +1,8 @@
-{% if editing %}
-<h1>Editing schedule: {{ schedule.name }}</h1>
-<h2><a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">View Schedule</a></h2>
-{% else %}
-<h1>Viewing schedule: {{ schedule.name }}</h1>
-<h2><a href = "{% url 'student_assistance_system:edit_schedule' schedule.id %}">Edit Schedule</a></h2>
-{% endif %}
+<span>
+<h1>{% if editing %}Editing{% else %}Viewing{% endif %} schedule: {{ schedule.name }}</h1>
+<a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit"></a>&nbsp;
+<a href="#" id="rename"></a>
+</span>
 <table id="schedule">
     <tr>
         <th>Course Name</th>
