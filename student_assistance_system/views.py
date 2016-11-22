@@ -142,7 +142,7 @@ class ProfileView(View):
     template_name = 'student_assistance_system/profile.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name, dict(user=request.user))
+        return render(request, self.template_name)
 
 
 def schedules_context_processor(request):
