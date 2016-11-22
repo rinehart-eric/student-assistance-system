@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{% static 'student_assistance_system/css/style.css' %}?{% now 'U' %}" />
-    <title>Student Assistance System - {% block location %}{% endblock %}</title>
+    <title>{% block location %}{% endblock %} - Student Assistance System</title>
 </head>
 
 <body>
@@ -18,9 +18,11 @@
             href="{% url 'student_assistance_system:logout' %}">Logout</a></p>
 
         </div>
-        <div class = "dropdown">
-            <button onclick="showHideDiv('myDropdown')" class="dropbtn">Schedules</button>
-            <div id="myDropdown" class="dropdown-content">
+    </div></div>
+    <div id="content">
+        <div class="dropdown">
+            <button onclick="showHideDiv('dropdown-menu')" class="dropbtn button">Schedules</button>
+            <div id="dropdown-menu" class="dropdown-content">
                 {% for schedule in schedules %}
                 <a href="{% url 'student_assistance_system:view_schedule' schedule.id %}">{{schedule.name}}</a>
                 {% if not forloop.last %}
@@ -29,8 +31,6 @@
                 {% endfor %}
             </div>
         </div>
-        </div></div>
-    </div><div id="content">
         {% block content %}{% endblock %}
     </div>
 </body>
