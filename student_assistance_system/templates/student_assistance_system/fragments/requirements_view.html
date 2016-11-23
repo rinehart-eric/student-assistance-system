@@ -38,19 +38,32 @@
                 {% endwith %}
             </table>
             {% if req_status == 'U' %}
+            <br />
+            <a onclick="showHideDiv('suggestion_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">Suggestions</a>
             {% get_course_suggestions req course_statuses schedule as course_suggestions %}
-            <table>
-                <tr>
-                    <th>Course</th>
-                    <th>Meeting Times</th>
-                </tr>
-                {% for section in course_suggestions %}
-                <tr>
-                    <td>{{ section.course }}</td>
-                    <td>{% for time in section.condensed_meeting_times %}{{time}}{% if not forloop.last %}<br />{% endif %}{% endfor %}</td>
-                </tr>
-                {% endfor %}
-            </table>
+            <div id="suggestion_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" style="display: block;">
+                <table>
+                    <tr>
+                        <th>Course</th>
+                        <th>Meeting Times</th>
+                        <th></th>
+                    </tr>
+                    {% for section in course_suggestions|slice:":5" %}
+                    <tr>
+                        <td>{{ section.course }}</td>
+                        <td>{% for time in section.condensed_meeting_times %}{{time}}{% if not forloop.last %}<br />{% endif %}{% endfor %}</td>
+                        <td>
+                            <form method="post" action="{% url 'student_assistance_system:add_section'%}">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ section.id }}" name="section" />
+                                <input type="hidden" value="{{ schedule.id }}" name="schedule" />
+                                <button type="submit">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
             {% endif %}
         </div>
     </div>
