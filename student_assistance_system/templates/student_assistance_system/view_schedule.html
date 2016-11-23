@@ -3,7 +3,7 @@
 {% load sas_tags %}
 {% block location %}Schedule{% endblock %}
 {% if schedule %}
-    {% if editing %}Editing{% else %}Viewing{% endif %} schedule: {{ schedule.name }}
+    {% if editing %}Editing{% else %}Viewing{% endif %} Schedule: {{ schedule.name }}
 {% else %}
     Schedule not found
 {% endif %}

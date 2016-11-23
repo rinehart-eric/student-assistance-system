@@ -30,8 +30,10 @@
         <td valign="top">{{ section.enrolled }}</td>
         <td valign="top">{{ section.capacity }}</td>
         {% if editing %}<td valign="top">
-            <form method="get" action="{% url 'student_assistance_system:remove_section' schedule.id section.id%}">
+            <form method="post" action="{% url 'student_assistance_system:remove_section'%}">
                 {% csrf_token %}
+                <input type="hidden" value="{{ section.id }}" name="section">
+                <input type="hidden" value="{{ schedule.id }}" name="schedule">
                 <input type="submit" value="X" />
             </form>
         </td>{% endif %}

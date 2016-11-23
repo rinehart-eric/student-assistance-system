@@ -122,6 +122,15 @@ class RemoveSectionScheduleView(IndexView):
         schedule.delete_section(section)
         return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
 
+    def post(self, request, *args, **kwargs):
+        p = request.user.profile
+        schedule = self.request.POST.get('schedule')
+        section = self.request.POST.get('section')
+        schedule = p.schedule_set.get(id=schedule)
+        section = Section.objects.get(id=section)
+        schedule.delete_section(section)
+        return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
+
 
 class AddSectionScheduleView(View):
     template_name = 'student_assistance_system/view_schedule.html'
