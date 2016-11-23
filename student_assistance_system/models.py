@@ -201,6 +201,11 @@ class Schedule(models.Model):
         self.sections.add(section)
         self.save()
 
+    def change_name(self, name):
+        if name is None:
+            raise ValueError('No Name Entered')
+        self.name = name
+        self.save()
 
 class CompletedCourse(models.Model):
     user = models.ForeignKey(Profile)

@@ -8,9 +8,9 @@
     </div>
 <h2> Name: {{user.profile.name}}</h2>
 <h2> Graduation Year: {{user.profile.year}} </h2>
-<h2> Majors:
-{% for major in user.usermajor.all %}
-    {{ major.name }}
+<h2> Majors:<br/>
+{% for major in user.profile.usermajor_set.all %}
+    <h3>{{ major.major }}</h3>
 {% endfor %}</h2>
 <h2> Minors:<br/>
 {% for minor in user.profile.minors.all %}
