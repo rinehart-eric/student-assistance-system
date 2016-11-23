@@ -1,4 +1,5 @@
 from autofixture import AutoFixture
+from datetime import *
 from django.test import TestCase
 from student_assistance_system.models import *
 from django.contrib.auth.models import User
@@ -120,3 +121,29 @@ class ScheduleTest(TestCase):
         self.assertEqual(self.schedule.sections.count(), 0)
         self.schedule.add_section(section)
         self.assertEquals(self.schedule.sections.first(), section)
+
+
+class MeetingTimeTest(TestCase):
+    def check_conflicts(self, m1, m2, expected):
+        self.assertEqual(m1.conflicts_with(m2), expected)
+        self.assertEqual(m2.conflicts_with(m1), expected)
+
+    def test_conflicts_different_day(self):
+        m1 = AutoFixture(MeetingTime, field_values=dict(day=0)).create_one()
+        m2 = AutoFixture(MeetingTime, field_values=dict(day=1)).create_one()
+        self.check_conflicts(m1, m2, False)
+
+    def test_conflicts_same_day_no_conflict(self):
+        m1 = MeetingTime.objects.create(day=1, start_time=time(6, 30), end_time=time(7, 30))
+        m2 = MeetingTime.objects.create(day=1, start_time=time(8, 30), end_time=time(10, 30))
+        self.check_conflicts(m1, m2, False)
+
+    def test_conflicts_same_day_slight_overlap(self):
+        m1 = MeetingTime.objects.create(day=1, start_time=time(6, 30), end_time=time(7, 30))
+        m2 = MeetingTime.objects.create(day=1, start_time=time(7, 30), end_time=time(8, 30))
+        self.check_conflicts(m1, m2, True)
+
+    def test_conflicts_same_day_complete_overlap(self):
+        m1 = MeetingTime.objects.create(day=1, start_time=time(6, 30), end_time=time(9, 30))
+        m2 = MeetingTime.objects.create(day=1, start_time=time(7, 30), end_time=time(8, 30))
+        self.check_conflicts(m1, m2, True)

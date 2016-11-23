@@ -4,7 +4,6 @@ html * {
 }
 
 html, body {
-    height: 100%;
     margin: 0px;
 }
 
@@ -15,6 +14,7 @@ div#top {
     position: fixed;
     top: 0px;
     height: 50px;
+    z-index: 10;
 }
 
 div#header {
@@ -57,15 +57,43 @@ div#links p, div#links p b, div#links p a {
 }
 
 div#content {
-    margin: 60px auto;
+    margin: 50px auto;
     width: 70%;
-    height: 100%;
 }
 
 div#content h1 {
-    margin: 10px 0px;
+    margin: 15px 0px 5px 0px;
     color: #171219;
-    font-weight: bold;
+    font-weight: normal;
+    font-size: 2em;
+    display: inline-block;
+}
+
+a#edit {
+    background-image: url("../images/edit.png");
+    background-size: 75%;
+    margin-left: 15px;
+}
+
+a#view {
+    background-image: url("../images/view.png");
+    background-size: 90%;
+    margin-left: 15px;
+}
+
+a#rename {
+    background-image: url("../images/rename.png");
+    background-size: 75%;
+}
+
+a#edit, a#rename, a#view {
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-block;
+    height: 1em;
+    width: 1em;
+    position: relative;
+    top: 3px;
 }
 
 table {
@@ -110,27 +138,22 @@ div.requirement_set:last-child {
     margin-right: 0px;
 }
 
-div.requirement_set table {
-    margin-top: 2px;
-    width: 100%;
-}
-
 div.requirement_set h2 {
-    margin: 2px;
+    margin: 3px;
     font-size: 20px;
     color: #171219;
     font-weight: bold;
 }
 
 div.requirement_set hr {
-    margin: 0px 0px 2px 0px;
+    margin: 0px 0px 3px 0px;
 }
 
 div.requirement {
     background: #0D1426;
     border-radius: 3px;
-    padding: 3px;
-    margin: 2px;
+    padding: 4px;
+    margin: 3px;
 }
 
 div.requirement a {
@@ -141,8 +164,18 @@ div.requirement a {
     text-decoration: none;
 }
 
+div.requirement table {
+    width: 100%;
+    margin-top: 2px;
+}
+
 div.course_table {
     display: none;
+}
+
+div.course_table table {
+    border-width: 1px;
+    margin-top: 5px;
 }
 
 div#scheduleList a {
@@ -164,45 +197,47 @@ td.schedule_fulfills {
 
 /* Dropdown Button */
 .dropbtn {
-    background-color: #1D2D56;
-    color: #F3F9D2;
-    padding: 8px;
+    padding: 5px;
     font-size: 16px;
-    border: #859BD1 2px ridge;
-    cursor: pointer;
     position: relative;
-    top: -15px;
+    outline: 0px;
 }
-
 
 /* The container <div> - needed to position the dropdown content */
 .dropdown {
     position: relative;
-    display: inline-block;
+    top: 13px;
+    float: right;
 }
 
 /* Dropdown Content (Hidden by Default) */
 .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
+    background: #f9f9f9;
     min-width: 160px;
     text-align: left;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    border: 1px solid #7A7265;
 }
 
 /* Links inside the dropdown */
 .dropdown-content a {
     color: black;
-    padding: 0px;
-    margin: 0px 10px;
+    padding: 10px;
+    margin: 0px;
     text-decoration: none;
     display: block;
+}
+
+.dropdown-content a:hover {
+    background: #EEEEEE;
 }
 
 .dropdown-content hr {
     padding: 0px;
     margin: 0px;
+    color: #7A7265;
 }
 
 .table-section {
@@ -221,5 +256,11 @@ td.schedule_fulfills {
     background-color: lightsteelblue;
 }
 
-
-
+.button {
+    padding: 5px;
+    background-color: #1D2D56;
+    color: #F3F9D2;
+    border: #859BD1 2px solid;
+    cursor: pointer;
+    text-decoration: none;
+}

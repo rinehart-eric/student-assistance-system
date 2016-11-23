@@ -14,8 +14,9 @@ class IndexView(View):
     template_name = 'student_assistance_system/index.html'
 
     def get_requirement_sets(self, p):
-        majors_and_concentrations = [(um.major, um.concentration) for um in p.usermajor_set.all()]
-        return list(sum(majors_and_concentrations, ())) + list(p.minors.all())
+        majors_and_concentrations = [[um.major, um.concentration] for um in p.usermajor_set.all()]
+        filtered = [reqs for pair in majors_and_concentrations for reqs in pair if reqs is not None]
+        return filtered + list(p.minors.all())
 
     def get(self, request, *args, **kwargs):
         p = request.user.profile
@@ -23,7 +24,7 @@ class IndexView(View):
         req_sets = self.get_requirement_sets(p)
         most_recently_updated_schedule = max(schedules, key=lambda s: s.updated) if schedules else None
 
-        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets, schedules=schedules))
+        return render(request, self.template_name, dict(schedule=most_recently_updated_schedule, req_sets=req_sets))
 
 
 @method_decorator(login_required, name='dispatch')
@@ -80,6 +81,7 @@ class SearchResultsView(generic.ListView):
         sections = self.filter_by_course_number(get_req, sections)
         return sections
 
+
 @method_decorator(login_required, name='dispatch')
 class ViewSectionView(View):
     template_name = 'student_assistance_system/view_section.html'
@@ -87,9 +89,8 @@ class ViewSectionView(View):
     def get(self, request, *args, **kwargs):
         section_id = self.kwargs['section_id']
         section = Section.objects.get(id=section_id)
-        p = request.user.profile
-        schedules = p.schedule_set.all()
-        return render(request, self.template_name, dict(section=section, schedules=schedules))
+        return render(request, self.template_name, dict(section=section))
+
 
 @method_decorator(login_required, name='dispatch')
 class ViewClass(View):
@@ -107,20 +108,20 @@ class ViewScheduleView(IndexView):
         p = request.user.profile
         schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
         req_sets = self.get_requirement_sets(p)
-        schedules = request.user.profile.schedule_set.all()
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
+        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing']))
+
 
 @method_decorator(login_required, name='dispatch')
 class RemoveSectionScheduleView(IndexView):
     template_name = 'student_assistance_system/view_schedule.html'
+
     def get(self, request, *args, **kwargs):
         p = request.user.profile
         schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
         req_sets = self.get_requirement_sets(p)
-        schedules = request.user.profile.schedule_set.all()
         section = schedule.sections.all().filter(pk=self.kwargs['section_id']).first()
         schedule.delete_section(section)
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing'], schedules=schedules))
+        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing']))
 
     def post(self, request, *args, **kwargs):
         p = request.user.profile
@@ -132,6 +133,7 @@ class RemoveSectionScheduleView(IndexView):
         return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
 
 
+@method_decorator(login_required, name='dispatch')
 class AddSectionScheduleView(View):
     template_name = 'student_assistance_system/view_schedule.html'
 
@@ -144,10 +146,18 @@ class AddSectionScheduleView(View):
         schedule.add_section(section)
         return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
 
+
 @method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     template_name = 'student_assistance_system/profile.html'
 
     def get(self, request, *args, **kwargs):
-        schedules = request.user.profile.schedule_set.all()
-        return render(request, self.template_name, dict(user=request.user, schedules=schedules))
+        return render(request, self.template_name)
+
+
+def schedules_context_processor(request):
+    u = request.user
+    if u.is_anonymous():
+        return dict()
+    else:
+        return dict(schedules=sorted(u.profile.schedule_set.all(), lambda x, y: -cmp(x.updated, y.updated)))

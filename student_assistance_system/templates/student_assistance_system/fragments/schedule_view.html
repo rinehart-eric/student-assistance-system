@@ -1,10 +1,11 @@
 {% if editing %}
-<h1>Editing schedule: {{ schedule.name }}</h1>
-<h2><a href = "{% url 'student_assistance_system:view_schedule' schedule.id %}">View Schedule</a></h2>
+<h1>Editing schedule: <b>{{ schedule.name }}</b></h1>
+<a href="{% url 'student_assistance_system:view_schedule' schedule.id %}" id="view" class="button" title="View schedule"></a>&nbsp;
 {% else %}
-<h1>Viewing schedule: {{ schedule.name }}</h1>
-<h2><a href = "{% url 'student_assistance_system:edit_schedule' schedule.id %}">Edit Schedule</a></h2>
+<h1>Viewing schedule: <b>{{ schedule.name }}</b></h1>
+<a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit" class="button" title="Edit schedule"></a>&nbsp;
 {% endif %}
+<a href="#" id="rename" class="button" title="Rename schedule"></a>
 <table id="schedule">
     <tr>
         <th>Course Name</th>
@@ -41,5 +42,6 @@
     </tr>
     {% endfor %}
 </table>
-
-
+<br />
+<a href="{% url 'student_assistance_system:search' %}" class="button">Search Classes</a>
+<br />
