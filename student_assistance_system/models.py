@@ -52,10 +52,10 @@ class Requirement(models.Model):
         """
         course_set = self.get_course_set()
         course_statuses = dict.fromkeys(course_set, 'U')
-        for cc in user.profile.completedcourse_set.filter(course__in=course_set):
-            course_statuses[cc.course] = 'F'
         for section in schedule.sections.filter(course__in=course_set):
             course_statuses[section.course] = 'S'
+        for cc in user.profile.completedcourse_set.filter(course__in=course_set):
+            course_statuses[cc.course] = 'F'
         return course_statuses
 
     def fulfillment_status(self, course_statuses):
