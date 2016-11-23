@@ -52,7 +52,7 @@
                     <tr>
                         <td>{{ section.course }}</td>
                         <td>{% for time in section.condensed_meeting_times %}{{time}}{% if not forloop.last %}<br />{% endif %}{% endfor %}</td>
-                        <td>
+                        <td style="width: 1%; white-space: nowrap;">
                             <form method="post" action="{% url 'student_assistance_system:add_section'%}">
                                 {% csrf_token %}
                                 <input type="hidden" value="{{ section.id }}" name="section" />
