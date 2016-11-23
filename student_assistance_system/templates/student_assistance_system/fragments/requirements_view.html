@@ -13,7 +13,7 @@
     <div class="requirement">
         {% get_course_statuses req user schedule as course_statuses %}
         {% fulfillment_status req course_statuses as req_status %}
-        <a href="#" onclick="showHideDiv('course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
+        <a onclick="showHideDiv('course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
         <div id="course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="course_table">
             <table>
                 <tr>
@@ -22,7 +22,7 @@
                 </tr>
                 {% with course_statuses.items as course_status_pairs %}
                 {% for course, status in course_status_pairs %}
-                {# {% if course_status_pairs|length < 10 or status != 'U' %} #}
+                {% if course_status_pairs|length < 15 or status != 'U' %}
                 <tr>
                     <td>{{ course }}</td>
                     {% if status == 'U' %}
@@ -33,10 +33,25 @@
                     <td class="fulfilled" title="{% long_status status %}"></td>
                     {% endif %}
                 </tr>
-                {# {% endif %} #}
+                {% endif %}
                 {% endfor %}
                 {% endwith %}
             </table>
+            {% if req_status == 'U' %}
+            {% get_course_suggestions req course_statuses schedule as course_suggestions %}
+            <table>
+                <tr>
+                    <th>Course</th>
+                    <th>Meeting Times</th>
+                </tr>
+                {% for section in course_suggestions %}
+                <tr>
+                    <td>{{ section.course }}</td>
+                    <td>{% for time in section.condensed_meeting_times %}{{time}}{% if not forloop.last %}<br />{% endif %}{% endfor %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+            {% endif %}
         </div>
     </div>
     {% endfor %}
