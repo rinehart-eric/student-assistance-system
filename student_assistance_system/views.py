@@ -148,6 +148,19 @@ class AddSectionScheduleView(View):
 
 
 @method_decorator(login_required, name='dispatch')
+class ChangeNameScheduleView(View):
+    template_name = 'student_assistance_system/view_schedule.html'
+
+    def post(self, request, *args, **kwargs):
+        schedule = self.request.POST.get('schedule')
+        name = self.request.POST.get('name')
+        p = request.user.profile
+        schedule = p.schedule_set.get(id=schedule)
+        schedule.change_name(name)
+        return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
+
+
+@method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     template_name = 'student_assistance_system/profile.html'
 

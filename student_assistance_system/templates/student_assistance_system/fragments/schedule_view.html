@@ -5,7 +5,14 @@
 <h1>Viewing schedule: <b>{{ schedule.name }}</b></h1>
 <a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit" class="button" title="Edit schedule"></a>&nbsp;
 {% endif %}
-<a href="#" id="rename" class="button" title="Rename schedule"></a>
+<a id = "rename" class="button" title="Rename schedule" onclick="showHideDiv('sch_rename')"></a>
+<form id = "sch_rename" method="post" action="{% url 'student_assistance_system:change_name'%}">
+                {% csrf_token %}
+                Edit Name: <input type="text" name="name">
+                <input type="hidden" value="{{ schedule.id }}" name="schedule">
+                <input type="submit" value="X" />
+            </form> </br>
+
 <table id="schedule">
     <tr>
         <th>Course Name</th>
