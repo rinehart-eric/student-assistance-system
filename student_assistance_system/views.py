@@ -14,8 +14,9 @@ class IndexView(View):
     template_name = 'student_assistance_system/index.html'
 
     def get_requirement_sets(self, p):
-        majors_and_concentrations = [(um.major, um.concentration) for um in p.usermajor_set.all()]
-        return list(sum(majors_and_concentrations, ())) + list(p.minors.all())
+        majors_and_concentrations = [[um.major, um.concentration] for um in p.usermajor_set.all()]
+        filtered = [reqs for pair in majors_and_concentrations for reqs in pair if reqs is not None]
+        return filtered + list(p.minors.all())
 
     def get(self, request, *args, **kwargs):
         p = request.user.profile

@@ -211,4 +211,4 @@ class CompletedCourse(models.Model):
 class UserMajor(models.Model):
     name = models.ForeignKey(Profile)
     major = models.ForeignKey(RequirementSet)
-    concentration = models.ForeignKey(RequirementSet, related_name='+')
+    concentration = models.ForeignKey(RequirementSet, related_name='+', blank=True, null=True)
