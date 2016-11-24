@@ -117,12 +117,6 @@ table#schedule {
     width: 100%;
 }
 
-#centerText {
-    padding: 0px 5px;
-    text-align: center;
-    color: #666666;
-}
-
 div#requirement_sets {
     width: 100%;
     display: flex;

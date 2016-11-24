@@ -3,18 +3,31 @@
 {% block location %}View Profile{% endblock %}
 
 {% block content %}
-<div id="centerText">
-<h1>Viewing profile Information: {{ user.username }}</h1>
-    </div>
-<h2> Name: {{user.profile.name}}</h2>
-<h2> Graduation Year: {{user.profile.year}} </h2>
-<h2> Majors:
-{% for major in user.usermajor.all %}
-    {{ major.name }}
-{% endfor %}</h2>
-<h2> Minors:<br/>
-{% for minor in user.profile.minors.all %}
-    <h3>{{ minor}}</h3>
-
-{% endfor %} </h2>
+<h1>Viewing profile for <b>{{ user.profile.name }}</b></h1>
+<table>
+    <tr>
+        <td>Username</td>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>Graduation Year</td>
+        <td>{{ user.profile.year }}</td>
+    </tr>
+    <tr>
+        <td>Majors</td>
+        <td>
+            {% for major in user.usermajor.all %}
+            {{ major.name }}<br />
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <td>Minors</td>
+        <td>
+            {% for minor in user.profile.minors.all %}
+            {{ minor }}<br />
+            {% endfor %}
+        </td>
+    </tr>
+</table>
 {% endblock %}
