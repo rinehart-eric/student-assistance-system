@@ -6,18 +6,14 @@
     <h1>Course: {{ section.course }}</h1>
     <table class="table-section">
         <tr>
-            <th class="th-section" colspan="2">Course Information</th>
+            <th class="th-section" colspan="2">Course Information for {{ section.course.department }} {{ section.course.course_number }}</th>
         </tr>
         <tr>
             <td class="td-section">Name: {{ section.course }}</td>
-            <td class="td-section">Number: {{ section.course.course_number }}</td>
+            <td class="td-section">Enrolled: {{ section.enrolled }}</td>
         </tr>
         <tr>
             <td class="td-section">Taught by: {{ section.professor }}</td>
-            <td class="td-section">Department: {{section.course.department}}</td>
-        </tr>
-        <tr>
-            <td class="td-section">Enrolled: {{ section.enrolled }}</td>
             <td class="td-section">Capacity: {{ section.capacity }}</td>
         </tr>
         <tr>

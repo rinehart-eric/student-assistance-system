@@ -7,20 +7,19 @@
     <h1>Search Results</h1>
  </div>
 {% if sections %}
-    <table border="1">
+    <table border="1" style="width: 100%;">
         <tr>
+            <th>Course</th>
             <th>Name</th>
-            <th>Number</th>
-            <th>Students Enrolled</th>
+            <th>Enrolled</th>
             <th>Capacity</th>
             <th>Meeting Times</th>
-            <th>Professor</th>
-            <th>Department</th>
+            <th>Taught By</th>
         </tr>
         {% for section in sections %}
             <tr>
-                <td><a href="{% url 'student_assistance_system:view_section' section.id%}">{{ section.course }}</a></td>
-                <td>{{ section.course.course_number }}</td>
+                <td>{{ section.course.department }} {{ section.course.course_number }}</td>
+                <td><a href="{% url 'student_assistance_system:view_section' section.id %}">{{ section.course }}</a></td>
                 <td>{{ section.enrolled }}</td>
                 <td>{{ section.capacity }}</td>
                 <td>
@@ -29,7 +28,6 @@
                     {% endfor %}
                 </td>
                 <td>{{ section.professor }}</td>
-                <td>{{section.course.department}}</td>
             </tr>
         {% endfor %}
     </table>
