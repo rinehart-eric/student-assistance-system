@@ -4,23 +4,21 @@
 
 {% block content %}
 
-<form action="/results/" method="get">
-    <div id="centerText">
+<form action="{% url 'student_assistance_system:courses' %}" method="get">
     <h1>Advanced Search</h1>
-        </div>
-    <p>Class Name: <input type="text" name="name"> </p>
-    <p> Class Number: <input type="text" name="num1"> To <input type="text" name="num2"></p>
-    <p> Class Department: <input type="text" name="dep"> </p>
-    <p> Meeting Times:
-        M<input type="checkbox">
-        T<input type="checkbox">
-        W<input type="checkbox">
-        TH<input type="checkbox">
-        F<input type="checkbox">
+    <p>Course name: <input type="text" name="name"></p>
+    <p>Course number: <input type="text" name="num1"> to <input type="text" name="num2"></p>
+    <p>Department: <input type="text" name="dep"></p>
+    <p>Meeting times:
+        M<input type="checkbox">&nbsp;
+        T<input type="checkbox">&nbsp;
+        W<input type="checkbox">&nbsp;
+        Th<input type="checkbox">&nbsp;
+        F<input type="checkbox">&nbsp;
         between <input type="time" placeholder="Start time"> and
         <input type="time" placeholder="End time">
     </p>
-    <p>Professor: <input type="text" name="prof"> </p>
-    <input type="submit" value="Submit">
+    <p>Taught by: <input type="text" name="prof"></p>
+    <input type="submit" value="Search">
 </form>
 {% endblock %}
