@@ -1,6 +1,6 @@
 from autofixture import AutoFixture
-from datetime import *
 from django.test import TestCase
+from datetime import *
 from student_assistance_system.models import *
 from django.contrib.auth.models import User
 
@@ -147,3 +147,42 @@ class MeetingTimeTest(TestCase):
         m1 = MeetingTime.objects.create(day=1, start_time=time(6, 30), end_time=time(9, 30))
         m2 = MeetingTime.objects.create(day=1, start_time=time(7, 30), end_time=time(8, 30))
         self.check_conflicts(m1, m2, True)
+
+
+class SectionTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.sections = AutoFixture(Section, generate_fk=True, generate_m2m=False).create(2)
+        # Creation of MeetingTime objects *must* follow Section creation due to AutoFixture bug
+        cls.m1 = MeetingTime.objects.create(day=1, start_time=time(6, 30), end_time=time(7, 30))
+        cls.m2 = MeetingTime.objects.create(day=1, start_time=time(8, 30), end_time=time(10, 30))
+
+    def tearDown(self):
+        for section in self.sections:
+            section.meeting_times.clear()
+
+    def check_conflicts(self, s1, s2, expected):
+        self.assertEqual(s1.conflicts_with(s2), expected)
+        self.assertEqual(s2.conflicts_with(s1), expected)
+
+    def test_conflicts_no_times(self):
+        self.check_conflicts(self.sections[0], self.sections[1], False)
+
+    def test_conflicts_one_section_no_times(self):
+        s1, s2 = self.sections[0], self.sections[1]
+        s1.meeting_times.add(self.m1)
+        s1.meeting_times.add(self.m2)
+        self.check_conflicts(s1, s2, False)
+
+    def test_conflicts_no_conflicting_times(self):
+        s1, s2 = self.sections[0], self.sections[1]
+        s1.meeting_times.add(self.m1)
+        s2.meeting_times.add(self.m2)
+        self.check_conflicts(s1, s2, False)
+
+    def test_conflicts_conflicting_times(self):
+        s1, s2 = self.sections[0], self.sections[1]
+        s1.meeting_times.add(self.m1)
+        s2.meeting_times.add(self.m1)
+        s2.meeting_times.add(self.m2)
+        self.check_conflicts(s1, s2, True)
