@@ -1,3 +1,5 @@
+{% load static %}
+<script type="text/javascript" src="{% static 'student_assistance_system/js/requirements.js' %}"></script>
 {% if editing %}
 <h1>Editing schedule: <b>{{ schedule.name }}</b></h1>
 <a href="{% url 'student_assistance_system:view_schedule' schedule.id %}" id="view" class="button" title="View schedule"></a>&nbsp;
@@ -5,13 +7,15 @@
 <h1>Viewing schedule: <b>{{ schedule.name }}</b></h1>
 <a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit" class="button" title="Edit schedule"></a>&nbsp;
 {% endif %}
-<a id = "rename" class="button" title="Rename schedule" onclick="showHideDiv('sch_rename')"></a>
-<form id = "sch_rename" method="post" action="{% url 'student_assistance_system:change_name'%}">
+<a id = "rename" onclick="showHideDiv('sch_rename')" class="button" title="Rename schedule" ></a>
+    <form method="post" action="{% url 'student_assistance_system:change_name'%}">
                 {% csrf_token %}
+                <div id="sch_rename" style="display:none">
                 Edit Name: <input type="text" name="name">
                 <input type="hidden" value="{{ schedule.id }}" name="schedule">
                 <input type="submit" value="X" />
-            </form> </br>
+                </div>
+    </form> </br>
 
 <table id="schedule">
     <tr>
