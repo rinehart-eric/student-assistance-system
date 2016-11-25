@@ -8,14 +8,15 @@
 <a href="{% url 'student_assistance_system:edit_schedule' schedule.id %}" id="edit" class="button" title="Edit schedule"></a>&nbsp;
 {% endif %}
 <a id = "rename" onclick="showHideDiv('sch_rename')" class="button" title="Rename schedule" ></a>
-    <form method="post" action="{% url 'student_assistance_system:change_name'%}">
-                {% csrf_token %}
-                <div id="sch_rename" style="display:none">
-                Edit Name: <input type="text" name="name">
-                <input type="hidden" value="{{ schedule.id }}" name="schedule">
-                <input type="submit" value="Submit" />
-                </div>
-    </form> </br>
+<div id="sch_rename" style="display: none;">
+    <form method="post" action="{% url 'student_assistance_system:change_name' %}">
+        {% csrf_token %}
+        <input type="hidden" value="{{ schedule.id }}" name="schedule">
+        <label for="name">Enter a new name:</label>
+        <input type="text" id="name" name="name" />
+        <input type="submit" value="Submit" />
+    </form></br>
+</div>
 
 <table id="schedule">
     <tr>
