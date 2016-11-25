@@ -122,6 +122,13 @@ class ScheduleTest(TestCase):
         self.schedule.add_section(section)
         self.assertEquals(self.schedule.sections.first(), section)
 
+    def test_change_name(self):
+        self.schedule.change_name('newScheduleName')
+        self.assertEqual(self.schedule.name,'newScheduleName')
+
+
+
+
 
 class MeetingTimeTest(TestCase):
     def check_conflicts(self, m1, m2, expected):
