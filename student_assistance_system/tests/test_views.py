@@ -122,7 +122,7 @@ class SearchingTestCase(TestCase):
         self.spanish_section =AutoFixture(Section, generate_fk=True,
                                   field_values=dict(course=spanish_course, professor="James Howard", meeting_times=[
                                     AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=1, start_time=datetime.time(9, 0), end_time=datetime.time(10, 15))).create_one(),
-                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=3, start_time=datetime.time(8, 0), end_time=datetime.time(10, 15))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=3, start_time=datetime.time(9, 0), end_time=datetime.time(10, 15))).create_one(),
                                   ])).create_one()
         self.eecs_section =AutoFixture(Section, generate_fk=True,
                                   field_values=dict(course=eecs_cource, professor="Andy Podgurski", meeting_times=[
@@ -144,8 +144,20 @@ class SearchingTestCase(TestCase):
     def test_search_professor(self):
         self.assertEqual(list(self.view.filter_by_professor({"prof": "James Howard"}, self.sections)), [self.math_section, self.spanish_section])
 
-    #def test_search_meeting_times(self):
+    def test_search_starting_time(self):
+        self.assertEqual(list(self.view.filter_by_meeting_times({"stime": "8:30"}, self.sections)), [self.math_section])
 
+    def test_search_end_time(self):
+        self.assertEqual(list(self.view.filter_by_meeting_times({"etime": "10:15"}, self.sections)), [self.math_section, self.spanish_section])
+
+    def test_time_range_search(self):
+        self.assertEqual(list(self.view.filter_by_meeting_times({"stime": "8:30", "etime": "10:10"}, self.sections)), [self.math_section])
+
+    def test_time_and_day(self):
+        self.assertEqual(list(self.view.filter_by_meeting_times({"thu": "on", "etime": "10:15"}, self.sections)), [self.spanish_section])
+
+    def test_day_only(self):
+        self.assertEqual(list(self.view.filter_by_meeting_times({"fri": "on"}, self.sections)), [self.math_section, self.eecs_section])
 
 
 class AddSectionScheduleViewTestCase(LoginTestCase):
@@ -156,6 +168,6 @@ class AddSectionScheduleViewTestCase(LoginTestCase):
         self.client.logout()
 
     def test_search_unauthorized(self):
-        url = reverse("student_assistance_system:search")
+        url = reverse("student_assistance_system:add_section")
         self.validate_response(self.client.get(url), expected_status_code=302)
         self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
