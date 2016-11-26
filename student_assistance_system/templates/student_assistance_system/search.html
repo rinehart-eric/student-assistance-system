@@ -10,13 +10,13 @@
     <p>Course number: <input type="text" name="num1"> to <input type="text" name="num2"></p>
     <p>Department: <input type="text" name="dep"></p>
     <p>Meeting times:
-        M<input type="checkbox">&nbsp;
-        T<input type="checkbox">&nbsp;
-        W<input type="checkbox">&nbsp;
-        Th<input type="checkbox">&nbsp;
-        F<input type="checkbox">&nbsp;
-        between <input type="time" placeholder="Start time"> and
-        <input type="time" placeholder="End time">
+        M<input name="mon" type="checkbox">
+        T<input name="tue" type="checkbox">
+        W<input name="wed" type="checkbox">
+        TH<input name="thu" type="checkbox">
+        F<input name="fri" type="checkbox">
+        between <input type="time" name="stime" placeholder="Start time"> and
+        <input type="time" name="etime" placeholder="End time">
     </p>
     <p>Taught by: <input type="text" name="prof"></p>
     <input type="submit" value="Search">

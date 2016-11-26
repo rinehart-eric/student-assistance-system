@@ -128,6 +128,8 @@ NOSE_ARGS = [
     '--cover-package=student_assistance_system',
     '--cover-html',
     '--verbosity=2',
+    '--nocapture',
+    '--nologcapture',
 ]
 
 

@@ -7,12 +7,6 @@ from student_assistance_system.models import *
 from student_assistance_system import views
 
 
-def setup_view(view, request, *args, **kwargs):
-    view.request = request
-    view.args = args
-    view.kwargs = kwargs
-    return view
-
 class LoginTestCase(TestCase):
     def setUp(self):
         User.objects.create_user('test', password='test')
@@ -142,3 +136,15 @@ class SearchResultsViewTestCase(LoginTestCase):
         section2 = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course, professor="James Howard")).create_one()
         sections = Section.objects.all()
         self.assertEqual(list(view.filter_by_professor({"prof": "James Howard"}, sections)), [section, section2])
+
+class AddSectionScheduleViewTestCase(LoginTestCase):
+    def test_search_authorized(self):
+        self.validate_login()
+        url = reverse("student_assistance_system:add_section")
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/view_schedule.html')
+        self.client.logout()
+
+    def test_search_unauthorized(self):
+        url = reverse("student_assistance_system:search")
+        self.validate_response(self.client.get(url), expected_status_code=302)
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')

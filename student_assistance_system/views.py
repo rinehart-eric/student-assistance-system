@@ -67,6 +67,34 @@ class SearchResultsView(generic.ListView):
             return sections.filter(Q(course__department__abbr_name=department.upper()))
         return sections
 
+    def add_day_to_query(self, day_query, day):
+        if day_query:
+            day_query |= Q(meeting_times__day=day)
+        else:
+            day_query = Q(meeting_times__day=day)
+        return day_query
+
+    def filter_by_meeting_times(self, request, sections):
+        start_time = request.get('stime')
+        end_time = request.get('etime')
+        day_query = Q()
+        if request.get('mon'): day_query = self.add_day_to_query(day_query, 0)
+        if request.get('tue'): day_query = self.add_day_to_query(day_query, 1)
+        if request.get('wed'): day_query = self.add_day_to_query(day_query, 2)
+        if request.get('thu'): day_query = self.add_day_to_query(day_query, 3)
+        if request.get('fri'): day_query = self.add_day_to_query(day_query, 4)
+        sections = sections.filter(day_query).distinct()
+        if start_time and end_time:
+            sections = sections.filter(Q(meeting_times__start_time__range=(start_time, end_time)))
+            return sections.filter(Q(meeting_times__end_time__range=(start_time, end_time)))
+        elif start_time:
+            return sections.filter(Q(meeting_times__start_time=start_time))
+        elif end_time:
+            return sections.filter(Q(meeting_times__end_time=end_time))
+        else:
+            return sections
+
+
     def get_context_data(self, **kwargs):
         context = super(SearchResultsView, self).get_context_data(**kwargs)
         context['schedules'] = self.request.user.profile.schedule_set.all()
@@ -79,6 +107,7 @@ class SearchResultsView(generic.ListView):
         sections = self.filter_by_name(get_req, sections)
         sections = self.filter_by_department(get_req, sections)
         sections = self.filter_by_course_number(get_req, sections)
+        sections = self.filter_by_meeting_times(get_req, sections)
         return sections
 
 
