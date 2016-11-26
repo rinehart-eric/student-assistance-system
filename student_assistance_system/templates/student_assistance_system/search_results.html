@@ -3,9 +3,7 @@
 {% block location %}Advanced Search{% endblock %}
 
 {% block content %}
- <div id="centerText">
-    <h1>Search Results</h1>
- </div>
+<h1>Search Results</h1>
 {% if sections %}
     <table border="1" style="width: 100%;">
         <tr>
@@ -24,7 +22,7 @@
                 <td>{{ section.capacity }}</td>
                 <td>
                     {% for m in section.condensed_meeting_times %}
-                        {{m}} <br>
+                        {{ m }}<br />
                     {% endfor %}
                 </td>
                 <td>{{ section.professor }}</td>
@@ -32,20 +30,17 @@
         {% endfor %}
     </table>
     {% if is_paginated %}
+        <br />
         <div class="pagination">
             <span class="page-links">
                 {% if page_obj.has_previous %}
                     <a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
-                        previous
-                    </a>
+                        < previous</a>
                 {% endif %}
-                <span class="page-current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
+                <span class="page-current">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
                 {% if page_obj.has_next %}
                     <a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
-                        next
-                    </a>
+                        next ></a>
                 {% endif %}
             </span>
         </div>
