@@ -5,6 +5,7 @@ from django.test import RequestFactory
 from autofixture import AutoFixture
 from student_assistance_system.models import *
 from student_assistance_system import views
+import datetime
 
 
 class LoginTestCase(TestCase):
@@ -84,6 +85,39 @@ class SearchViewTestCase(LoginTestCase):
 
 
 class SearchResultsViewTestCase(LoginTestCase):
+    def setup(self):
+        self.view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
+        math_course = AutoFixture(Course, generate_fk=True,
+                                  field_values=dict(name='Calculus I', course_number='121', credit_hours=4,
+                                                    department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='MATH')).create_one()
+                                                    )).create_one()
+        spanish_course = AutoFixture(Course, generate_fk=True,
+                                    field_values=dict(name='Intro to Spanish', course_number='101', credit_hours=4,
+                                                      department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='SPAN')).create_one()
+                                                     )).create_one()
+        eecs_cource = AutoFixture(Course, generate_fk=True,
+                                  field_values=dict(name='Software Engineering', course_number='393', credit_hours=3,
+                                                    department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='EECS')).create_one()
+                                                    )).create_one()
+        self.math_section =AutoFixture(Section, generate_fk=True,
+                                  field_values=dict(course=math_course, professor="James Howard", meeting_times=[
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=0, start_time=datetime.time(8, 30), end_time=datetime.time(9, 20))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=1, start_time=datetime.time(9, 0), end_time=datetime.time(10, 15))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=2, start_time=datetime.time(8, 30), end_time=datetime.time(9, 20))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=4, start_time=datetime.time(8, 30), end_time=datetime.time(9, 20))).create_one()
+                                  ])).create_one()
+        self.spanish_section =AutoFixture(Section, generate_fk=True,
+                                  field_values=dict(course=spanish_course, professor="James Howard", meeting_times=[
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=1, start_time=datetime.time(9, 0), end_time=datetime.time(10, 15))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=3, start_time=datetime.time(8, 0), end_time=datetime.time(10, 15))).create_one(),
+                                  ])).create_one()
+        self.eecs_section =AutoFixture(Section, generate_fk=True,
+                                  field_values=dict(course=eecs_cource, professor="Andy Podgurski", meeting_times=[
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=0, start_time=datetime.time(11, 40), end_time=datetime.time(12, 30))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=2, start_time=datetime.time(11, 40), end_time=datetime.time(12, 30))).create_one(),
+                                    AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=4, start_time=datetime.time(11, 40), end_time=datetime.time(12, 30))).create_one()
+                                  ])).create_one()
+
     def test_search_results_authorized(self):
         self.validate_login()
         url = reverse("student_assistance_system:courses")
@@ -96,46 +130,27 @@ class SearchResultsViewTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
 
     def test_search_name(self):
-        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
-        course1 = AutoFixture(Course, generate_fk=True, field_values=dict(name='Intro to Composition')).create_one()
-        course2 = AutoFixture(Course, generate_fk=True, field_values=dict(name='Calculus I')).create_one()
-        course3 = AutoFixture(Course, generate_fk=True, field_values=dict(name='Spanish I')).create_one()
-        section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course1)).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course2)).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course3)).create_one()
+        self.setup()
         sections = Section.objects.all()
-        self.assertEqual(list(view.filter_by_name({"name": "Intro to Composition"}, sections)), [section])
+        self.assertEqual(list(self.view.filter_by_name({"name": "Intro to Spanish"}, sections)), [self.spanish_section])
 
     def test_search_number(self):
-        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
-        course1 = AutoFixture(Course, generate_fk=True, field_values=dict(course_number='102')).create_one()
-        course2 = AutoFixture(Course, generate_fk=True, field_values=dict(course_number='103')).create_one()
-        course3 = AutoFixture(Course, generate_fk=True, field_values=dict(course_number='104')).create_one()
-        section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course1)).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course2)).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course3)).create_one()
+        self.setup()
         sections = Section.objects.all()
-        self.assertEqual(list(view.filter_by_course_number({"num1": "102"}, sections)), [section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101"}, sections)), [self.spanish_section])
 
     def test_search_department(self):
-        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
-        dept1 = AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='EECS')).create_one()
-        dept2 = AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='MATH')).create_one()
-        course1 = AutoFixture(Course, generate_fk=True, field_values=dict(department=dept1)).create_one()
-        course2 = AutoFixture(Course, generate_fk=True, field_values=dict(department=dept2)).create_one()
-        section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course1)).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course2)).create_one()
+        self.setup()
         sections = Section.objects.all()
-        self.assertEqual(list(view.filter_by_department({"dep": "EECS"}, sections)), [section])
+        self.assertEqual(list(self.view.filter_by_department({"dep": "EECS"}, sections)), [self.eecs_section])
 
     def test_search_professor(self):
-        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
-        course = AutoFixture(Course, generate_fk=True, field_values=dict(credit_hours=4)).create_one()
-        section = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course, professor="James Howard")).create_one()
-        AutoFixture(Section, generate_m2m=False, field_values=dict(course=course, professor="Ed Sullivan")).create_one()
-        section2 = AutoFixture(Section, generate_m2m=False, field_values=dict(course=course, professor="James Howard")).create_one()
+        self.setup()
         sections = Section.objects.all()
-        self.assertEqual(list(view.filter_by_professor({"prof": "James Howard"}, sections)), [section, section2])
+        self.assertEqual(list(self.view.filter_by_professor({"prof": "James Howard"}, sections)), [self.math_section, self.spanish_section])
+
+    #def test_search_meeting_times(self):
+
 
 class AddSectionScheduleViewTestCase(LoginTestCase):
     def test_search_authorized(self):
