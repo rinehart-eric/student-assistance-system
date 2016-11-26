@@ -117,6 +117,7 @@ class SearchResultsViewTestCase(LoginTestCase):
                                     AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=2, start_time=datetime.time(11, 40), end_time=datetime.time(12, 30))).create_one(),
                                     AutoFixture(MeetingTime, generate_fk=True, field_values=dict(day=4, start_time=datetime.time(11, 40), end_time=datetime.time(12, 30))).create_one()
                                   ])).create_one()
+        self.sections = Section.objects.all()
 
     def test_search_results_authorized(self):
         self.validate_login()
@@ -130,26 +131,23 @@ class SearchResultsViewTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
 
     def test_search_name(self):
-        self.setup()
-        sections = Section.objects.all()
-        self.assertEqual(list(self.view.filter_by_name({"name": "Intro to Spanish"}, sections)), [self.spanish_section])
+        #self.setup()
+        self.assertEqual(list(self.view.filter_by_name({"name": "Intro to Spanish"}, self.sections)), [self.spanish_section])
 
     def test_search_number(self):
         self.setup()
-        sections = Section.objects.all()
-        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101"}, sections)), [self.spanish_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101"}, self.sections)), [self.spanish_section])
 
     def test_search_department(self):
         self.setup()
-        sections = Section.objects.all()
-        self.assertEqual(list(self.view.filter_by_department({"dep": "EECS"}, sections)), [self.eecs_section])
+        self.assertEqual(list(self.view.filter_by_department({"dep": "EECS"}, self.sections)), [self.eecs_section])
 
     def test_search_professor(self):
         self.setup()
-        sections = Section.objects.all()
-        self.assertEqual(list(self.view.filter_by_professor({"prof": "James Howard"}, sections)), [self.math_section, self.spanish_section])
+        self.assertEqual(list(self.view.filter_by_professor({"prof": "James Howard"}, self.sections)), [self.math_section, self.spanish_section])
 
     #def test_search_meeting_times(self):
+
 
 
 class AddSectionScheduleViewTestCase(LoginTestCase):
