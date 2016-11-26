@@ -85,7 +85,20 @@ class SearchViewTestCase(LoginTestCase):
 
 
 class SearchResultsViewTestCase(LoginTestCase):
-    def setup(self):
+    def test_search_results_authorized(self):
+        self.validate_login()
+        url = reverse("student_assistance_system:courses")
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/search_results.html')
+        self.client.logout()
+
+    def test_search_unauthorized(self):
+        url = reverse("student_assistance_system:courses")
+        self.validate_response(self.client.get(url), expected_status_code=302)
+        self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
+
+
+class SearchingTestCase(TestCase):
+    def setUp(self):
         self.view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
         math_course = AutoFixture(Course, generate_fk=True,
                                   field_values=dict(name='Calculus I', course_number='121', credit_hours=4,
@@ -119,31 +132,16 @@ class SearchResultsViewTestCase(LoginTestCase):
                                   ])).create_one()
         self.sections = Section.objects.all()
 
-    def test_search_results_authorized(self):
-        self.validate_login()
-        url = reverse("student_assistance_system:courses")
-        self.validate_response(self.client.get(url, follow=True), expected_template_name='student_assistance_system/search_results.html')
-        self.client.logout()
-
-    def test_search_unauthorized(self):
-        url = reverse("student_assistance_system:courses")
-        self.validate_response(self.client.get(url), expected_status_code=302)
-        self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
-
     def test_search_name(self):
-        #self.setup()
         self.assertEqual(list(self.view.filter_by_name({"name": "Intro to Spanish"}, self.sections)), [self.spanish_section])
 
     def test_search_number(self):
-        self.setup()
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "101"}, self.sections)), [self.spanish_section])
 
     def test_search_department(self):
-        self.setup()
         self.assertEqual(list(self.view.filter_by_department({"dep": "EECS"}, self.sections)), [self.eecs_section])
 
     def test_search_professor(self):
-        self.setup()
         self.assertEqual(list(self.view.filter_by_professor({"prof": "James Howard"}, self.sections)), [self.math_section, self.spanish_section])
 
     #def test_search_meeting_times(self):
