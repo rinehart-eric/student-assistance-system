@@ -54,11 +54,40 @@ class SearchResultsView(generic.ListView):
             return sections.filter(Q(professor__icontains=professor))
         return sections
 
+    def determine_course_number(self, course):
+        if not course[-1].isdigit():
+            course = course[0:len(course)-1]
+        return int(course) if course.isdigit() else 999
+
+    def determine_course_letter(self, course):
+        if course[-1].isdigit():
+            return "0"
+        return course[-1].upper()
+
+    def determine_courses_in_range(self, upper_number, lower_number, sections):
+        lower_course_letter = self.determine_course_letter(lower_number)
+        upper_course_letter = self.determine_course_letter(upper_number)
+        lower_course_number = self.determine_course_number(lower_number)
+        upper_course_number = self.determine_course_number(upper_number)
+        sections_in_range = []
+        for section in sections:
+                section_number = self.determine_course_number(section.course.course_number)
+                section_letter = self.determine_course_letter(section.course.course_number)
+                if lower_course_number < section_number < upper_course_number:
+                    sections_in_range.append(section)
+                elif lower_course_number == section_number and section_letter >= lower_course_letter:
+                    sections_in_range.append(section)
+                elif upper_course_number == section_number and section_letter <= upper_course_letter:
+                    sections_in_range.append(section)
+        return sections_in_range
+
     def filter_by_course_number(self, request, sections):
         lower_course_number = request.get('num1')
         upper_course_number = request.get('num2')
-        if lower_course_number:
-            return sections.filter(Q(course__course_number=lower_course_number))
+        if upper_course_number and lower_course_number:
+            return self.determine_courses_in_range(upper_course_number, lower_course_number, sections)
+        elif lower_course_number:
+            return sections.filter(Q(course__course_number=lower_course_number.upper()))
         return sections
 
     def filter_by_department(self, request, sections):
@@ -106,8 +135,8 @@ class SearchResultsView(generic.ListView):
         sections = self.filter_by_professor(get_req, sections)
         sections = self.filter_by_name(get_req, sections)
         sections = self.filter_by_department(get_req, sections)
-        sections = self.filter_by_course_number(get_req, sections)
         sections = self.filter_by_meeting_times(get_req, sections)
+        sections = self.filter_by_course_number(get_req, sections)
         return sections
 
 
