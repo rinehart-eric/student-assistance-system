@@ -96,6 +96,12 @@ class SearchResultsView(generic.ListView):
             return sections.filter(Q(course__department__abbr_name=department.upper()))
         return sections
 
+    def filter_by_credits(self, request, sections):
+        credit_hours = request.get('credits')
+        if credit_hours:
+            return sections.filter(Q(course__credit_hours=credit_hours))
+        return sections
+
     def add_day_to_query(self, day_query, day):
         if day_query:
             day_query |= Q(meeting_times__day=day)
@@ -123,7 +129,6 @@ class SearchResultsView(generic.ListView):
         else:
             return sections
 
-
     def get_context_data(self, **kwargs):
         context = super(SearchResultsView, self).get_context_data(**kwargs)
         context['schedules'] = self.request.user.profile.schedule_set.all()
@@ -135,6 +140,7 @@ class SearchResultsView(generic.ListView):
         sections = self.filter_by_professor(get_req, sections)
         sections = self.filter_by_name(get_req, sections)
         sections = self.filter_by_department(get_req, sections)
+        sections = self.filter_by_credits(get_req, sections)
         sections = self.filter_by_meeting_times(get_req, sections)
         sections = self.filter_by_course_number(get_req, sections)
         return sections

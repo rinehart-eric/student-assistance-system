@@ -175,7 +175,6 @@ class SearchingTestCase(TestCase):
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "122"}, self.sections)), [self.math_section, self.spanish_section])
 
     def test_search_course_lower_letter(self):
-        print()
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "121", "num2": "200"}, self.sections)), [self.math_section])
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "121b", "num2": "200"}, self.sections)), [self.math_section])
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "121c", "num2": "200"}, self.sections)), [self.math_section])
