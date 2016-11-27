@@ -97,11 +97,23 @@ class SearchResultsViewTestCase(LoginTestCase):
         self.validate_response(self.client.get(url, follow=True), expected_template_name='registration/login.html')
 
 
+class CourseSearchHelpersTestCase(TestCase):
+    def test_determine_course_number(self):
+        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
+        self.assertEqual(view.determine_course_number("121"), 121)
+        self.assertEqual(view.determine_course_number("121a"), 121)
+
+    def test_determine_course_letter(self):
+        view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
+        self.assertEqual(view.determine_course_letter("121"), "0")
+        self.assertEqual(view.determine_course_letter("121a"), "A")
+
+
 class SearchingTestCase(TestCase):
     def setUp(self):
         self.view = views.SearchResultsView(template_name='student_assistance_system/search_results.html')
         math_course = AutoFixture(Course, generate_fk=True,
-                                  field_values=dict(name='Calculus I', course_number='121', credit_hours=4,
+                                  field_values=dict(name='Calculus I', course_number='121c', credit_hours=4,
                                                     department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='MATH')).create_one()
                                                     )).create_one()
         spanish_course = AutoFixture(Course, generate_fk=True,
@@ -109,7 +121,7 @@ class SearchingTestCase(TestCase):
                                                       department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='SPAN')).create_one()
                                                      )).create_one()
         eecs_cource = AutoFixture(Course, generate_fk=True,
-                                  field_values=dict(name='Software Engineering', course_number='393', credit_hours=3,
+                                  field_values=dict(name='Software Engineering', course_nuber='393', credit_hours=3,
                                                     department=AutoFixture(Department, generate_fk=True, field_values=dict(abbr_name='EECS')).create_one()
                                                     )).create_one()
         self.math_section =AutoFixture(Section, generate_fk=True,
@@ -158,6 +170,23 @@ class SearchingTestCase(TestCase):
 
     def test_day_only(self):
         self.assertEqual(list(self.view.filter_by_meeting_times({"fri": "on"}, self.sections)), [self.math_section, self.eecs_section])
+
+    def test_search_course_in_number_range(self):
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "122"}, self.sections)), [self.math_section, self.spanish_section])
+
+    def test_search_course_lower_letter(self):
+        print()
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "121", "num2": "200"}, self.sections)), [self.math_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "121b", "num2": "200"}, self.sections)), [self.math_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "121c", "num2": "200"}, self.sections)), [self.math_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "121d", "num2": "200"}, self.sections)), [])
+
+    def test_search_course_upper_letter(self):
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "121"}, self.sections)), [self.spanish_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "121b"}, self.sections)), [self.spanish_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "121c"}, self.sections)), [self.math_section, self.spanish_section])
+        self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "121d"}, self.sections)), [self.math_section, self.spanish_section])
+
 
 
 class AddSectionScheduleViewTestCase(LoginTestCase):
