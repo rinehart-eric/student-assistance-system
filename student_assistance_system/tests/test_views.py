@@ -171,6 +171,9 @@ class SearchingTestCase(TestCase):
     def test_day_only(self):
         self.assertEqual(list(self.view.filter_by_meeting_times({"fri": "on"}, self.sections)), [self.math_section, self.eecs_section])
 
+    def test_credit_hours(self):
+        self.assertEqual(list(self.view.filter_by_credits({"credits": 3}, self.sections)), [self.eecs_section])
+
     def test_search_course_in_number_range(self):
         self.assertEqual(list(self.view.filter_by_course_number({"num1": "101", "num2": "122"}, self.sections)), [self.math_section, self.spanish_section])
 
