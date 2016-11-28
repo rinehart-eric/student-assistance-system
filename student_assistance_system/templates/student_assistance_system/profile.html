@@ -1,33 +1,41 @@
 {% extends "student_assistance_system/base_site.html" %}
 
-{% block location %}View Profile{% endblock %}
+{% block location %}Viewing Profile{% endblock %}
 
 {% block content %}
-<h1>Viewing profile for <b>{{ user.profile.name }}</b></h1>
-<table>
-    <tr>
-        <td>Username</td>
-        <td>{{ user.username }}</td>
-    </tr>
-    <tr>
-        <td>Graduation Year</td>
-        <td>{{ user.profile.year }}</td>
-    </tr>
-    <tr>
-        <td>Majors</td>
-        <td>
+<h1>Viewing profile for <b>{{ user.profile.name }}</b> ({{ user.username }})</h1>
+<h2>Expected graduation date: <b>{{ user.profile.year }}</b></h2>
+<div class="requirement_sets">
+    <div class="requirement_set" style="border: none; flex-basis: 60%;">
+        <table style="width: 100%;">
+            <tr>
+                <th colspan="2" style="text-align: center; font-size: larger;">Majors</th>
+            </tr>
+            <tr>
+                <td><b>Name</b></td>
+                <td><b>Concentration</b></td>
+            </tr>
             {% for major in user.profile.usermajor_set.all %}
-            {{ major.major }}<br />
+            <tr>
+                <td>{{ major.major }}</td>
+                <td>{{ major.concentration }}</td>
+            </tr>
             {% endfor %}
-        </td>
-    </tr>
-    <tr>
-        <td>Minors</td>
-        <td>
+        </table>
+    </div>
+    {% if user.profile.minors.all %}
+    <div class="requirement_set" style="border: none; flex-basis: 40%;">
+        <table style="width: 100%;">
+            <tr>
+                <th colspan="2" style="text-align: center; font-size: larger;">Minors</th>
+            </tr>
             {% for minor in user.profile.minors.all %}
-            {{ minor }}<br />
+            <tr>
+                <td>{{ minor }}</td>
+            </tr>
             {% endfor %}
-        </td>
-    </tr>
-</table>
+        </table>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}
