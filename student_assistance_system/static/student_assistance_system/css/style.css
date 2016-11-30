@@ -161,6 +161,7 @@ div.requirement a {
     color: #F3F9D2;
     font-weight: bold;
     text-decoration: none;
+    cursor: pointer;
 }
 
 div.requirement table {

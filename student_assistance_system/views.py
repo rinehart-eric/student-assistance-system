@@ -15,8 +15,8 @@ class IndexView(View):
 
     def get_requirement_sets(self, p):
         majors_and_concentrations = [[um.major, um.concentration] for um in p.usermajor_set.all()]
-        filtered = [reqs for pair in majors_and_concentrations for reqs in pair if reqs is not None]
-        return filtered + list(p.minors.all())
+        filtered_sets = [reqs for pair in majors_and_concentrations for reqs in pair if reqs is not None]
+        return filtered_sets + list(p.minors.all())
 
     def get(self, request, *args, **kwargs):
         p = request.user.profile

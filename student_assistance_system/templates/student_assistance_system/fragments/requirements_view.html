@@ -13,7 +13,7 @@
     <div class="requirement">
         {% get_course_statuses req user schedule as course_statuses %}
         {% fulfillment_status req course_statuses as req_status %}
-        <a href="#" onclick="showHideDiv('course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
+        <a onclick="showHideDiv('course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">{{ req.name }}: {% long_status req_status %}</a>
         <div id="course_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" class="course_table">
             <table>
                 <tr>
@@ -22,7 +22,7 @@
                 </tr>
                 {% with course_statuses.items as course_status_pairs %}
                 {% for course, status in course_status_pairs %}
-                {# {% if course_status_pairs|length < 10 or status != 'U' %} #}
+                {% if course_status_pairs|length < 15 or status != 'U' %}
                 <tr>
                     <td>{{ course }}</td>
                     {% if status == 'U' %}
@@ -33,10 +33,38 @@
                     <td class="fulfilled" title="{% long_status status %}"></td>
                     {% endif %}
                 </tr>
-                {# {% endif %} #}
+                {% endif %}
                 {% endfor %}
                 {% endwith %}
             </table>
+            {% if req_status == 'U' %}
+            <br />
+            <a onclick="showHideDiv('suggestion_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}')">Suggestions</a>
+            {% get_course_suggestions req course_statuses schedule as course_suggestions %}
+            <div id="suggestion_table_{{ forloop.parentloop.counter }}_{{ forloop.counter }}" style="display: block;">
+                <table>
+                    <tr>
+                        <th>Course</th>
+                        <th>Meeting Times</th>
+                        <th></th>
+                    </tr>
+                    {% for section in course_suggestions|slice:":5" %}
+                    <tr>
+                        <td>{{ section.course }}</td>
+                        <td>{% for time in section.condensed_meeting_times %}{{time}}{% if not forloop.last %}<br />{% endif %}{% endfor %}</td>
+                        <td style="width: 1%; white-space: nowrap;">
+                            <form method="post" action="{% url 'student_assistance_system:add_section'%}">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{ section.id }}" name="section" />
+                                <input type="hidden" value="{{ schedule.id }}" name="schedule" />
+                                <button type="submit">Add</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+            {% endif %}
         </div>
     </div>
     {% endfor %}

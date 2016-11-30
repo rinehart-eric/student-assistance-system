@@ -24,6 +24,11 @@ def get_course_statuses(requirement, user, schedule):
 
 
 @register.assignment_tag
+def get_course_suggestions(requirement, course_statuses, schedule):
+    return requirement.get_course_suggestions(course_statuses, schedule)
+
+
+@register.assignment_tag
 def fulfillment_status(requirement, course_statuses):
     return requirement.fulfillment_status(course_statuses)
 
