@@ -3,64 +3,62 @@
 {% block location %}View Section{% endblock %}
 
 {% block content %}
-    <h1>Course: {{ section.course }}</h1>
-    <table class="table-section">
-        <tr>
-            <th class="th-section" colspan="2">Course Information for {{ section.course.department }} {{ section.course.course_number }}</th>
-        </tr>
-        <tr>
-            <td class="td-section">Name: {{ section.course }}</td>
-            <td class="td-section">Enrolled: {{ section.enrolled }}</td>
-        </tr>
-        <tr>
-            <td class="td-section">Taught by: {{ section.professor }}</td>
-            <td class="td-section">Capacity: {{ section.capacity }}</td>
-        </tr>
-        <tr>
-            <td class="td-section">Credit hours: {{ section.course.credit_hours }}</td>
-        </tr>
-    </table>
-    <table class="table-section">
-        <tr>
-            <th class="th-section" colspan="2">Section Information</th>
-        </tr>
-        <tr>
-            <td class="td-section">
-                {% for m in section.condensed_meeting_times %}
-                    {{ m }}<br />
+<h1>Course: {{ section.course }}</h1>
+<table class="table-section">
+    <tr>
+        <th class="th-section" colspan="2">Course Information for {{ section.course.department }} {{ section.course.course_number }}</th>
+    </tr>
+    <tr>
+        <td class="td-section">Name: {{ section.course }}</td>
+        <td class="td-section">Enrolled: {{ section.enrolled }}</td>
+    </tr>
+    <tr>
+        <td class="td-section">Taught by: {{ section.professor }}</td>
+        <td class="td-section">Capacity: {{ section.capacity }}</td>
+    </tr>
+    <tr>
+        <td class="td-section">Credit hours: {{ section.course.credit_hours }}</td>
+        <td></td>
+    </tr>
+</table>
+<table class="table-section">
+    <tr>
+        <th class="th-section" colspan="2">Section Information</th>
+    </tr>
+    <tr>
+        <td class="td-section">
+            {% for m in section.condensed_meeting_times %}
+            {{ m }}<br />
+            {% endfor %}
+        </td>
+        <td class="td-section">Location: {{ section.location}}</td>
+    </tr>
+</table>
+{% if section.course.description %}
+<table class="table-section">
+    <tr>
+        <th class="th-section">Description</th>
+    </tr>
+    <tr>
+        <td class="td-section">
+            {{section.course.description}}
+        </td>
+    </tr>
+</table>
+{% endif %}
+<div>
+    <form method="post" action="{% url 'student_assistance_system:add_section'%}">
+        {% csrf_token %}
+        <input type="hidden" value="{{ section.id }}" name="section">
+        <p>
+            <button type="submit" class="button" style="padding: 2px;">Add</button>
+            <label for="schedule">this section to</label>
+            <select name="schedule" id="schedule">
+                {% for schedule in schedules %}
+                <option value="{{schedule.id}}">{{schedule}}</option>
                 {% endfor %}
-            </td>
-            <td class="td-section">Location: {{ section.location}}</td>
-        </tr>
-    </table>
-    {% if section.course.description %}
-    <table class="table-section">
-        <tr>
-            <th class="th-section">Description</th>
-        </tr>
-        <tr>
-            <td class="td-section">
-                {{section.course.description}}
-            </td>
-        </tr>
-    </table>
-    {% endif %}
-    <div>
-        <form method="post" action="{% url 'student_assistance_system:add_section'%}">
-            {% csrf_token %}
-            <input type="hidden" value="{{ section.id }}" name="section">
-            <p>
-                <label for="schedule">Add this section to</label>
-                <select name="schedule" id="schedule">
-                    {% for schedule in schedules %}
-                    <option value="{{schedule.id}}">{{schedule}}</option>
-                    {% endfor %}
-                </select>
-                :&nbsp;&nbsp;
-                <button type="submit">Add</button>
-            </p>
-        </form>
-
-    </div>
-
+            </select>
+        </p>
+    </form>
+</div>
 {% endblock %}

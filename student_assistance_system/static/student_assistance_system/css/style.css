@@ -259,19 +259,20 @@ td.schedule_fulfills {
 }
 
 .table-section {
-    border: 0px;
     margin-bottom: 20px;
 }
 
 .td-section {
-    border: 0px;
     padding-right: 100px;
 }
 
 .th-section {
-    border: 0px;
     padding-right: 100px;
     background-color: lightsteelblue;
+}
+
+.table-section .td-section .th-section {
+    border: #7A7265 1px solid;
 }
 
 .button {
