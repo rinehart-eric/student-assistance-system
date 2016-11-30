@@ -120,6 +120,21 @@ table#schedule {
     width: 100%;
 }
 
+div#search-fields {
+    background: #EEEEEE;
+    border: 2px solid #7A7265;
+    margin: 0px;
+    padding: 7px;
+}
+
+div#search-fields p {
+    margin: 0px 0px 15px 0px;
+}
+
+div#search-fields p:last-child {
+    margin: 0px;
+}
+
 div.requirement_sets {
     width: 100%;
     display: flex;
@@ -202,7 +217,6 @@ td.schedule_fulfills {
 /* Dropdown Button */
 .dropbtn {
     padding: 5px;
-    font-size: 16px;
     position: relative;
     outline: 0px;
 }
@@ -263,6 +277,7 @@ td.schedule_fulfills {
 .button {
     padding: 5px;
     background-color: #1D2D56;
+    font-size: 16px;
     color: #F3F9D2;
     border: #859BD1 2px solid;
     cursor: pointer;
