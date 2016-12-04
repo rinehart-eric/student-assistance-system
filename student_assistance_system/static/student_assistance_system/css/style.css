@@ -69,7 +69,7 @@ div#content h1 {
     display: inline-block;
 }
 
-div#content h2 {
+h2#grad-date {
     font-weight: normal;
     margin: 10px 0px;
 }

@@ -4,7 +4,7 @@
 
 {% block content %}
 <h1>Viewing profile for <b>{{ user.profile.name }}</b> ({{ user.username }})</h1>
-<h2>Expected graduation date: <b>{{ user.profile.year }}</b></h2>
+<h2 id="grad-date">Expected graduation date: <b>{{ user.profile.year }}</b></h2>
 <div class="requirement_sets">
     <div class="requirement_set" style="border: none; flex-basis: 60%;">
         <table style="width: 100%;">
