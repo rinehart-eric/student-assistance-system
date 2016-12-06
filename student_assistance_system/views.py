@@ -165,6 +165,14 @@ class ViewClass(View):
 
 
 @method_decorator(login_required, name='dispatch')
+class CreateScheduleView(View):
+    def post(self, request, *args, **kwargs):
+        p = request.user.profile
+        schedule = p.schedule_set.create(name='New Schedule')
+        return HttpResponseRedirect(reverse('student_assistance_system:edit_schedule', args=(), kwargs={'schedule_id': schedule.id}))
+
+
+@method_decorator(login_required, name='dispatch')
 class ViewScheduleView(IndexView):
     template_name = 'student_assistance_system/view_schedule.html'
 
@@ -178,14 +186,6 @@ class ViewScheduleView(IndexView):
 @method_decorator(login_required, name='dispatch')
 class RemoveSectionScheduleView(IndexView):
     template_name = 'student_assistance_system/view_schedule.html'
-
-    def get(self, request, *args, **kwargs):
-        p = request.user.profile
-        schedule = p.schedule_set.filter(pk=self.kwargs['schedule_id']).first()
-        req_sets = self.get_requirement_sets(p)
-        section = schedule.sections.all().filter(pk=self.kwargs['section_id']).first()
-        schedule.delete_section(section)
-        return render(request, self.template_name, dict(schedule=schedule, req_sets=req_sets, editing=self.kwargs['editing']))
 
     def post(self, request, *args, **kwargs):
         p = request.user.profile

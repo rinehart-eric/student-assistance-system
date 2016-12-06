@@ -25,10 +25,12 @@
             <div id="dropdown-menu" class="dropdown-content">
                 {% for schedule in schedules %}
                 <a href="{% url 'student_assistance_system:view_schedule' schedule.id %}">{{schedule.name}}</a>
-                {% if not forloop.last %}
                 <hr />
-                {% endif %}
                 {% endfor %}
+                <form method="post" action="{% url 'student_assistance_system:create_schedule' %}" id="create_schedule">
+                    {% csrf_token %}
+                    <a href="javascript:{}" onclick="document.getElementById('create_schedule').submit(); return false;">Create new...</a>
+                </form>
             </div>
         </div>
         {% block content %}{% endblock %}
