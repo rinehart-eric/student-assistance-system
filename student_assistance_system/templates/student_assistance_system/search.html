@@ -8,7 +8,15 @@
 <div id="search-fields">
     <form action="{% url 'student_assistance_system:courses' %}" method="get">
         <p>Course name: <input type="text" name="name"></p>
-        <p>Course number: <input type="text" name="num1"> to <input type="text" name="num2"></p>
+        <p>Course number:
+            <input type="text" name="num1">
+            <span id="secondNum" style="display: none">
+                to <input type="text" name="num2">
+                <a id= "collapse" onclick="showHideInlineElement('secondNum', 'expand')" class="button"></a>
+            </span>
+            <a id= "expand" onclick="showHideInlineElement('secondNum', 'expand')" class="button" style="display: inline-flex"></a>
+
+        </p>
         <p>Department: <input type="text" name="dep"></p>
         <p>Meeting times:
             M<input name="mon" type="checkbox">&nbsp;

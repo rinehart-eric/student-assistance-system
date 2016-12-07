@@ -91,6 +91,16 @@ a#rename {
     background-size: 75%;
 }
 
+a#expand {
+    background-image: url("../images/expand.png");
+    background-size: 50%;
+}
+
+a#collapse {
+    background-image: url("../images/collapse.png");
+    background-size: 50%;
+}
+
 a#edit, a#rename, a#view {
     background-repeat: no-repeat;
     background-position: center;
@@ -99,6 +109,15 @@ a#edit, a#rename, a#view {
     width: 1em;
     position: relative;
     top: 3px;
+}
+
+a#expand, a#collapse {
+    background-repeat: no-repeat;
+    background-position: center;
+    display: inline-flex;
+    height: .25em;
+    width: .5em;
+    position: relative;
 }
 
 table {
@@ -284,4 +303,5 @@ td.schedule_fulfills {
     cursor: pointer;
     text-decoration: none;
 }
+
 
