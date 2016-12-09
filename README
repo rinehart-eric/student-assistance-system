@@ -1,6 +1,11 @@
 Our project requires python-2.7, django 1.10.2, django-nose 1.4.4, and django-autofixture 0.12.1
 
+Python 2.7 can be installed using a package manager.
+The remaining packages can be installed using pip ('pip install django', 'pip install django-nose', 'pip install django-autofixture')
+
 The code can be run after cloning by:
  1. calling 'python manage.py runserver'
  2. navigating to localhost:8000/ in a web browser
  3. username 'test' and password 'test' can be used to login
+
+Unit tests can be run with 'python manage.py test'. This will run all of the unit tests and a 'cover' directory will be created with the code coverage statistics.
